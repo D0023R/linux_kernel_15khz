@@ -1,0 +1,121 @@
+diff -Naur linux-5.0_stock/drivers/gpu/drm/radeon/atom.c linux-5.0/drivers/gpu/drm/radeon/atom.c
+--- linux-5.0_stock/drivers/gpu/drm/radeon/atom.c	2019-03-03 23:21:29.000000000 +0000
++++ linux-5.0/drivers/gpu/drm/radeon/atom.c	2019-03-04 09:09:35.222221180 +0000
+@@ -1278,13 +1278,16 @@
+ 		kfree(ctx);
+ 		return NULL;
+ 	}
+-	if (strncmp
+-	    (CSTR(ATOM_ATI_MAGIC_PTR), ATOM_ATI_MAGIC,
+-	     strlen(ATOM_ATI_MAGIC))) {
+-		pr_info("Invalid ATI magic\n");
+-		kfree(ctx);
+-		return NULL;
+-	}
++        if (strncmp
++            (CSTR(ATOM_ATI_MAGIC_PTR), ATOM_ATI_MAGIC,
++             strlen(ATOM_ATI_MAGIC)) &&
++              strncmp
++                (CSTR(ATOM_ATI_MAGIC_PTR), ATOM_AVGA_MAGIC,
++                strlen(ATOM_AVGA_MAGIC))) {
++                printk(KERN_INFO "Invalid ATI magic.\n");
++                kfree(ctx);
++                return NULL;
++        }
+ 
+ 	base = CU16(ATOM_ROM_TABLE_PTR);
+ 	if (strncmp
+diff -Naur linux-5.0_stock/drivers/gpu/drm/radeon/atom.h linux-5.0/drivers/gpu/drm/radeon/atom.h
+--- linux-5.0_stock/drivers/gpu/drm/radeon/atom.h	2019-03-03 23:21:29.000000000 +0000
++++ linux-5.0/drivers/gpu/drm/radeon/atom.h	2019-03-04 09:08:49.349893405 +0000
+@@ -31,6 +31,7 @@
+ #define ATOM_BIOS_MAGIC		0xAA55
+ #define ATOM_ATI_MAGIC_PTR	0x30
+ #define ATOM_ATI_MAGIC		" 761295520"
++#define ATOM_AVGA_MAGIC	" 618573322"
+ #define ATOM_ROM_TABLE_PTR	0x48
+ 
+ #define ATOM_ROM_MAGIC		"ATOM"
+diff -Naur linux-5.0_stock/drivers/gpu/drm/radeon/radeon_atombios.c linux-5.0/drivers/gpu/drm/radeon/radeon_atombios.c
+--- linux-5.0_stock/drivers/gpu/drm/radeon/radeon_atombios.c	2019-03-03 23:21:29.000000000 +0000
++++ linux-5.0/drivers/gpu/drm/radeon/radeon_atombios.c	2019-03-04 09:08:49.351893376 +0000
+@@ -341,6 +341,17 @@
+ 			return false;
+ 	}
+ 
++        /* Arcade VGA 3000 card is DVI+VGA, not DVI+DVI */
++        if ((dev->pdev->device == 0x958f) &&
++            (dev->pdev->subsystem_vendor == 0x1002) &&
++            (dev->pdev->subsystem_device == 0x0502)) {
++                if (supported_device == ATOM_DEVICE_CRT1_SUPPORT || supported_device == ATOM_DEVICE_DFP2_SUPPORT) {
++                        if (*connector_type == DRM_MODE_CONNECTOR_DVII) {
++                                *connector_type = DRM_MODE_CONNECTOR_VGA;
++                        }
++                }
++        }
++
+ 	/* Gigabyte X1300 is DVI+VGA, not DVI+DVI */
+ 	if ((dev->pdev->device == 0x7142) &&
+ 	    (dev->pdev->subsystem_vendor == 0x1458) &&
+@@ -1165,6 +1176,14 @@
+ 		p1pll->pll_out_max =
+ 		    le32_to_cpu(firmware_info->info.ulMaxPixelClockPLL_Output);
+ 
++		/* Arcade VGA 3000 card settings */
++		if ((dev->pdev->device == 0x958f) &&
++			(dev->pdev->subsystem_vendor == 0x1002) &&
++			(dev->pdev->subsystem_device == 0x0502)) {
++				p1pll->pll_out_min = 50000;
++				p2pll->pll_out_min = 50000;
++		}
++
+ 		if (((frev < 2) && (crev >= 4)) || (frev >= 2)) {
+ 			p1pll->lcd_pll_out_min =
+ 				le16_to_cpu(firmware_info->info_14.usLcdMinPixelClockPLL_Output) * 100;
+diff -Naur linux-5.0_stock/drivers/gpu/drm/radeon/radeon_bios.c linux-5.0/drivers/gpu/drm/radeon/radeon_bios.c
+--- linux-5.0_stock/drivers/gpu/drm/radeon/radeon_bios.c	2019-03-03 23:21:29.000000000 +0000
++++ linux-5.0/drivers/gpu/drm/radeon/radeon_bios.c	2019-03-04 09:08:49.355893317 +0000
+@@ -30,6 +30,8 @@
+ #include "radeon.h"
+ #include "atom.h"
+ 
++#include <linux/firmware.h>
++#include <linux/module.h>
+ #include <linux/slab.h>
+ #include <linux/acpi.h>
+ /*
+@@ -656,10 +658,32 @@
+ 
+ bool radeon_get_bios(struct radeon_device *rdev)
+ {
+-	bool r;
++	bool r = false;
+ 	uint16_t tmp;
+ 
+-	r = radeon_atrm_get_bios(rdev);
++        /* AVGA 3000 Bios replacement */
++        if (rdev->family >= CHIP_R600) {
++                if ((rdev->pdev->device == 0x958f) &&
++                  (rdev->pdev->subsystem_vendor == 0x1002) &&
++                  (rdev->pdev->subsystem_device == 0x0502)) {
++                        const struct firmware *fw_bios;
++                        MODULE_FIRMWARE("radeon/hd2600.bin");
++
++                        printk("ArcadeVGA 3000 board found\n");
++                        if (!request_firmware(&fw_bios, "radeon/hd2600.bin", &rdev->pdev->dev)) {
++                                if (fw_bios->size > 0) {
++                                        printk("AVGA 3000 board using hd2600 vbios of %d bytes\n", (int)fw_bios->size);
++                                        rdev->bios = kmemdup(fw_bios->data, fw_bios->size, GFP_KERNEL);
++                                        if (rdev->bios)
++                                                r = true;
++                                }
++                                release_firmware(fw_bios);
++                        }
++                }
++        }
++
++	if (r == false)
++		r = radeon_atrm_get_bios(rdev);
+ 	if (r == false)
+ 		r = radeon_acpi_vfct_bios(rdev);
+ 	if (r == false)
