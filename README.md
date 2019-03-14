@@ -34,7 +34,8 @@ You can specify "640x480" or "800x600" resolution at boot by adding either "vide
 
 E.g. for syslinux.cfg:
 
-```append root=/dev/sda1 rw vga=785 <...other parameters...> video=VGA-1:640x480ec
+```
+append root=/dev/sda1 rw vga=785 <...other parameters...> video=VGA-1:640x480ec
 ```
 
 ## SOURCES:
