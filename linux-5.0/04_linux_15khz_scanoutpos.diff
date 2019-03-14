@@ -1,6 +1,6 @@
 diff -Naur linux-5.0_stock/drivers/gpu/drm/drm_vblank.c linux-5.0/drivers/gpu/drm/drm_vblank.c
 --- linux-5.0_stock/drivers/gpu/drm/drm_vblank.c	2019-03-03 23:21:29.000000000 +0000
-+++ linux-5.0/drivers/gpu/drm/drm_vblank.c	2019-03-04 09:35:58.690014048 +0000
++++ linux-5.0/drivers/gpu/drm/drm_vblank.c	2019-03-14 09:35:58.690014048 +0000
 @@ -1532,6 +1531,10 @@
  	unsigned int pipe_index;
  	unsigned int flags, pipe, high_pipe;
@@ -21,7 +21,7 @@ diff -Naur linux-5.0_stock/drivers/gpu/drm/drm_vblank.c linux-5.0/drivers/gpu/dr
  		DRM_DEBUG("Unsupported type value 0x%x, supported mask 0x%x\n",
  			  vblwait->request.type,
  			  (_DRM_VBLANK_TYPES_MASK | _DRM_VBLANK_FLAGS_MASK |
-@@ -1575,6 +1578,49 @@
+@@ -1575,6 +1578,51 @@
  
  	vblank = &dev->vblank[pipe];
  
@@ -33,7 +33,7 @@ diff -Naur linux-5.0_stock/drivers/gpu/drm/drm_vblank.c linux-5.0/drivers/gpu/dr
 +	         else
 +		        mode = &crtc->hwmode;
 +
-+		 /*
++		 /* get_scanout_position 
 +		  * Returns vpos as a positive number while in active scanout area.
 +		  * Returns vpos as a negative number inside vblank, counting the number
 +		  * of scanlines to go until end of vblank, e.g., -1 means "one scanline
@@ -52,9 +52,11 @@ diff -Naur linux-5.0_stock/drivers/gpu/drm/drm_vblank.c linux-5.0/drivers/gpu/dr
 +		      return -EINVAL;
 +		}
 +
++		// reply.sequence
 +		// - Returns sequence as a positive number while in active scanout area.
 +		// - Returns sequence as a negative number inside vblank.
-+		// Note: 0 is the first active scanline on the screen, vblank scanlines are always at the end
++		// Note: 0 corresponds to the first active scanline, vblank scanlines are 
++		// always located after the active scanlines
 +
 +		if ( vpos < 0 ) { // use real scanout position, starting from first visible scanline   
 +                      vpos += mode->crtc_vtotal;

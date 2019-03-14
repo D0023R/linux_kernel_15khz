@@ -14,7 +14,7 @@ The provided kernel patches enable the 15kHz video support with additional featu
 
 linux-5.0 folder applies to kernel versions 5.0, 5.0.1 and 5.0.2
 
-## BUILD INSTRUCTION:
+## BUILD INSTRUCTIONS:
 
 - Download and install the kernel source
 - Select the appropriate patch subfolder based on the selected kernel version
