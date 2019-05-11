@@ -12,8 +12,8 @@ The provided kernel patches enable the 15kHz video support with additional featu
 
 ## KERNEL COMPATIBILITY:
 
-- linux-5.0 folder applies to kernel versions from 5.0 to 5.0.11 (stopped).
-- linux-5.1 folder applies to kernel version 5.1 
+- linux-5.0 folder applies to 5.0 kernel versions.
+- linux-5.1 folder applies to 5.1 kernel versions.
 
 ## BUILD INSTRUCTIONS:
 
