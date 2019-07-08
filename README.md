@@ -8,7 +8,7 @@ The provided kernel patches enable the 15kHz video support with additional featu
 - arcadevga_3000.diff (only required to support ARCADEVGA 3000 card model)
 - linux_15khz.diff (main patch for 15 kHz support)
 - linux_15khz_interlaced_mode_fix.diff (fix the vertical blank interrupt reporting to make interlaced resolution workings with groovymame)
-- linux_15khz_scanoutpos.diff (optional, enable scanline position reporting to use space, will be required to support future groovymame synchronisation library)
+- linux_15khz_scanoutpos.diff (optional, enable scanline position reporting to user space, will be required to support future groovymame synchronisation library)
 
 ## KERNEL COMPATIBILITY:
 
