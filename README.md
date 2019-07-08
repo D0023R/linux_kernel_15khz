@@ -4,16 +4,17 @@ The provided kernel patches enable the 15kHz video support with additional featu
 
 ## CONTENT:
 
-- 01_ati_9200_pllfix.diff (only required to support ATI 9200 card model)
-- 02_arcadevga_3000.diff (only required to support ARCADEVGA 3000 card model)
-- 03_linux_15khz.diff (main patch for 15 kHz support)
-- 04_linux_15khz_scanoutpos.diff (optional, enable scanline position reporting to use space, will be required to support future groovymame synchronisation library)
-- 05_linux_15khz_interlaced_mode_fix.diff (fix the vertical blank interrupt reporting to make interlaced resolution workings with groovymame)
+- ati_9200_pllfix.diff (only required to support ATI 9200 card model)
+- arcadevga_3000.diff (only required to support ARCADEVGA 3000 card model)
+- linux_15khz.diff (main patch for 15 kHz support)
+- linux_15khz_interlaced_mode_fix.diff (fix the vertical blank interrupt reporting to make interlaced resolution workings with groovymame)
+- linux_15khz_scanoutpos.diff (optional, enable scanline position reporting to use space, will be required to support future groovymame synchronisation library)
 
 ## KERNEL COMPATIBILITY:
 
 - linux-5.0 folder applies to 5.0 kernel versions.
 - linux-5.1 folder applies to 5.1 kernel versions.
+- linux-5.2 folder applies to 5.2 kernel versions.
 
 ## BUILD INSTRUCTIONS:
 
