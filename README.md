@@ -2,7 +2,7 @@
 
 The provided kernel patches enable the 15kHz video support with additional features for Linux.
 
-## CONTENT:
+## PATCH LIBRARY CONTENT:
 
 - ati_9200_pllfix.diff (only required to support ATI 9200 card model)
 - arcadevga_3000.diff (only required to support ARCADEVGA 3000 card model)
@@ -39,6 +39,21 @@ E.g. for syslinux.cfg:
 ```
 append root=/dev/sda1 rw vga=785 <...other parameters...> video=VGA-1:640x480ec
 ```
+
+## Custom EDID method (no kernel patch required)
+
+It is possible to set a custom EDID at boot via the drm module.
+(Note: in recent kernel the drm_kms_helper.edid_firmware parameter has been moved to the drm module. Backward compatibility for drm_kms_helper.edid_firmware is still present in kernel 5.3)
+
+Put your edid custom file in the /lib/firmware/edid directory
+    Add video=VGA-1:e drm.edid_firmware=VGA-1:edid/<edid_filename> to your bootloader, where video=VGA-1:e is needed to enable the connector
+        drm.edid_firmware=VGA-1:edid/<edid_filename> is needed to force the custom EDID on the connector
+    Reboot
+
+NOTES:
+    On previous kernel use drm_kms_helper.edid_firmware instead of drm.edid_firmware.
+    If you are using an initramfs to initialize the kernel, the custom EDID file must be included or the kernel will not find it.
+    Using the custom EDID methos, X server will start in the EDID defined configuration. No need to specify any modeline.
 
 ## SOURCES:
 
