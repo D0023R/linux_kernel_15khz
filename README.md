@@ -42,18 +42,20 @@ append root=/dev/sda1 rw vga=785 <...other parameters...> video=VGA-1:640x480ec
 
 ## Custom EDID method (no kernel patch required)
 
-It is possible to set a custom EDID at boot via the drm module.
+It is possible to set a custom EDID at boot via the drm module.  
 (Note: in recent kernel the drm_kms_helper.edid_firmware parameter has been moved to the drm module. Backward compatibility for drm_kms_helper.edid_firmware is still present in kernel 5.3)
 
-Put your edid custom file in the /lib/firmware/edid directory
-    Add video=VGA-1:e drm.edid_firmware=VGA-1:edid/<edid_filename> to your bootloader, where video=VGA-1:e is needed to enable the connector
-        drm.edid_firmware=VGA-1:edid/<edid_filename> is needed to force the custom EDID on the connector
-    Reboot
+Put your edid custom file in the /lib/firmware/edid directory and add the following in your boot manager configuration on the kernel parameter line.
+```
+append root=/dev/sda1 <...other parameters...> video=VGA-1:e drm.edid_firmware=VGA-1:edid/<edid_filename>
+```
+The parameter video=VGA-1:e is needed to enable the connector. The drm.edid_firmware=VGA-1:edid/<edid_filename> parameter sets the custom EDID on the connector.  
+    
 
-NOTES:
-    On previous kernel use drm_kms_helper.edid_firmware instead of drm.edid_firmware.
-    If you are using an initramfs to initialize the kernel, the custom EDID file must be included or the kernel will not find it.
-    Using the custom EDID methos, X server will start in the EDID defined configuration. No need to specify any modeline.
+NOTES:  
+    On previous kernel use drm_kms_helper.edid_firmware instead of drm.edid_firmware.  
+    If you are using an initramfs to initialize the kernel, the custom EDID file must be included or the kernel will not find it.  
+    Using the custom EDID method, X server will start in the EDID defined configuration. No need to specify any modeline.  
 
 ## SOURCES:
 
