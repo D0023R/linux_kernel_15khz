@@ -1,0 +1,13 @@
+diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.4_stock/drivers/gpu/drm/drm_vblank.c linux-5.4_15kHz/drivers/gpu/drm/drm_vblank.c
+--- linux-5.4_stock/drivers/gpu/drm/drm_vblank.c	2019-11-25 01:32:01.000000000 +0100
++++ linux-5.4_15kHz/drivers/gpu/drm/drm_vblank.c	2019-11-25 09:48:27.027138294 +0100
+@@ -275,8 +275,7 @@
+ 		      pipe, vblank->count, diff, cur_vblank, vblank->last);
+ 
+ 	if (diff == 0) {
+-		WARN_ON_ONCE(cur_vblank != vblank->last);
+-		return;
++                diff = 1;
+ 	}
+ 
+ 	/*
