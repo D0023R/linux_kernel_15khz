@@ -17,6 +17,7 @@ The provided kernel patches enable the 15kHz video support with additional featu
 - linux-5.2 folder applies to 5.2 kernel versions.
 - linux-5.3 folder applies to 5.3 kernel versions.
 - linux-5.4 folder applies to 5.4 kernel versions.
+- linux-5.5 folder applies to 5.5 kernel versions.
 
 ## BUILD INSTRUCTIONS:
 
@@ -30,16 +31,28 @@ The provided kernel patches enable the 15kHz video support with additional featu
 The patch enable the selection of the desired video mode during the boot process.
 The parameters must be provided to your boot loader (grub, syslinux, ...) and appended to your kernel parameters
 
-You can specify "640x480" or "800x600" resolution at boot by adding either "video=VGA-1:640x480ec" or "video=VGA-1:800x600ez" to the kernel line.
+You can specify "640x480" or "320x240" resolution at boot by adding either `video=VGA-1:640x480ieS` or `video=VGA-1:320x240eS` to the kernel line.
 
 - "VGA-1" is the name of the video connector (see the kernel documentation or xrandr utility output for more info)
 - 'e' letter is needed to switch on and enable the output connector
-- 'c' letter or 'z' letter are used to select respectively 15KHz or 25KHz (default is 31kHz)
+- 'i' letter means interlace, see next comment
+- 'S' letter tells to use switchres resolutions. As for now, resolutions are hardcoded, here is a list of them. Use the exact resolution, including the `i`:
+  - 15kHz modes:
+    - 320x240 progressive
+    - 640x480i interlace
+    - 720x480i interlace
+    - 768x576i interlace
+    - 800x576i interlace (50Hz)
+    - 1280x480i interlace (for video cards that require a miiinimum dotclock of 25MHz such as NVidia and Intel)
+  - 25kHz modes:
+    - 512x384 progressive
+    - 800x600i interlace
+    - 1024x768i interlace (50Hz)
 
 E.g. for syslinux.cfg:
 
 ```
-append root=/dev/sda1 rw vga=785 <...other parameters...> video=VGA-1:640x480ec
+append root=/dev/sda1 rw vga=785 <...other parameters...> video=VGA-1:640x480ieS
 ```
 
 ## Custom EDID method (no kernel patch required)

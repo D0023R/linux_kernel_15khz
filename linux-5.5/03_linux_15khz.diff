@@ -1,0 +1,302 @@
+diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+index 82ff826b33cc..9e677d2d19b9 100644
+--- a/drivers/gpu/drm/Makefile
++++ b/drivers/gpu/drm/Makefile
+@@ -17,7 +17,8 @@ drm-y       :=	drm_auth.o drm_cache.o \
+ 		drm_plane.o drm_color_mgmt.o drm_print.o \
+ 		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
+ 		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
+-		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o
++		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
++		drm_modes_switchres.o
+ 
+ drm-$(CONFIG_DRM_LEGACY) += drm_legacy_misc.o drm_bufs.o drm_context.o drm_dma.o drm_scatter.o drm_lock.o
+ drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
+diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
+index 88232698d7a0..51f0d0c292cd 100644
+--- a/drivers/gpu/drm/drm_modes.c
++++ b/drivers/gpu/drm/drm_modes.c
+@@ -44,6 +44,7 @@
+ #include <drm/drm_print.h>
+ 
+ #include "drm_crtc_internal.h"
++#include "drm_modes_switchres.h"
+ 
+ /**
+  * drm_mode_debug_printmodeline - print a mode to dmesg
+@@ -1510,7 +1511,7 @@ static int drm_mode_parse_cmdline_res_mode(const char *str, unsigned int length,
+ 					   struct drm_cmdline_mode *mode)
+ {
+ 	const char *str_start = str;
+-	bool rb = false, cvt = false;
++	bool rb = false, cvt = false, switchres = false;
+ 	int xres = 0, yres = 0;
+ 	int remaining, i;
+ 	char *end_ptr;
+@@ -1540,6 +1541,12 @@ static int drm_mode_parse_cmdline_res_mode(const char *str, unsigned int length,
+ 		case 'R':
+ 			rb = true;
+ 			break;
++		case 'S':
++		case 'c':
++		case 'z':
++			switchres = true;
++			DRM_DEBUG_KMS("Found the S/c/z switchres mode");
++			break;
+ 		default:
+ 			/*
+ 			 * Try to pass that to our extras parsing
+@@ -1564,6 +1569,7 @@ static int drm_mode_parse_cmdline_res_mode(const char *str, unsigned int length,
+ 	mode->yres = yres;
+ 	mode->cvt = cvt;
+ 	mode->rb = rb;
++	mode->switchres = switchres;
+ 
+ 	return 0;
+ }
+@@ -1886,7 +1892,11 @@ drm_mode_create_from_cmdline_mode(struct drm_device *dev,
+ {
+ 	struct drm_display_mode *mode;
+ 
+-	if (cmd->cvt)
++	if (cmd->switchres)
++	mode = drm_mode_switchres_res(dev,
++				    cmd->xres, cmd->yres,
++				    cmd->interlace);
++	else if (cmd->cvt)
+ 		mode = drm_cvt_mode(dev,
+ 				    cmd->xres, cmd->yres,
+ 				    cmd->refresh_specified ? cmd->refresh : 60,
+diff --git a/drivers/gpu/drm/drm_modes_switchres.c b/drivers/gpu/drm/drm_modes_switchres.c
+new file mode 100644
+index 000000000000..8f24eda64527
+--- /dev/null
++++ b/drivers/gpu/drm/drm_modes_switchres.c
+@@ -0,0 +1,115 @@
++/*
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the next
++ * paragraph) shall be included in all copies or substantial portions of the
++ * Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++#include <drm/drm_modes.h>
++#include <drm/drm_print.h>
++
++
++/**
++ * Switchres static modelines
++ * 2 duplicate modes that vary with H freq : 320x240 and 1024x768
++ */
++static struct drm_display_mode drm_switchres_modes[] = {
++	/* 320x240@60.00 15.660 Khz */
++	{ DRM_MODE("320x240", DRM_MODE_TYPE_DRIVER, 6640, 320, 336,
++			368, 424, 0, 240, 242, 245, 261, 0,
++			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
++	/* 640x480@60.00 15.750 Khz */
++	{ DRM_MODE("640x480i", DRM_MODE_TYPE_DRIVER, 13104, 640, 664,
++			728, 832, 0, 480, 484, 490, 525, 0,
++			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC | 
++                       DRM_MODE_FLAG_INTERLACE) },
++	/* 720x480@59.95 15.7369 Khz */
++	{ DRM_MODE("720x480i", DRM_MODE_TYPE_DRIVER, 14856, 720, 752,
++			824, 944, 0, 480, 484, 490, 525, 0,
++			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC | 
++			DRM_MODE_FLAG_INTERLACE) },
++	/* 768x576 15.6250 Khz */
++	{ DRM_MODE("768x576i", DRM_MODE_TYPE_DRIVER, 15625, 768, 800,
++			872, 1000, 0, 576, 582, 588, 625, 0,
++			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC | 
++			DRM_MODE_FLAG_INTERLACE) },
++	/* 800x576@50.00 15.725 Khz */
++	{ DRM_MODE("800x576i", DRM_MODE_TYPE_DRIVER, 16354, 800, 832,
++			912, 1040, 0, 576, 584, 590, 629, 0,
++			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC | 
++			DRM_MODE_FLAG_INTERLACE) },
++	/* 1280x480@60.00 15.690 Khz - 25MHz dotclock for i915+nouveau*/
++	{ DRM_MODE("1280x480i", DRM_MODE_TYPE_DRIVER, 25983, 1280, 1328,
++			1448, 1656, 0, 480, 483, 489, 523, 0,
++			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC | 
++			DRM_MODE_FLAG_INTERLACE) },
++	/* 512x384@58.59 24.960 Khz */
++	{ DRM_MODE("512x384", DRM_MODE_TYPE_DRIVER, 16972, 512, 560,
++			608, 680, 0, 384, 395, 399, 426, 0,
++			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
++	/* 800x600@60.00 24.990 Khz */
++	{ DRM_MODE("800x600i", DRM_MODE_TYPE_DRIVER, 26989, 800, 880,
++			960, 1080, 0, 600, 697, 705, 833, 0,
++			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC | 
++			DRM_MODE_FLAG_INTERLACE) },
++	/* 1024x768@50.00 24.975 Khz */
++	{ DRM_MODE("1024x768i", DRM_MODE_TYPE_DRIVER, 34165, 1024, 1120,
++			1216, 1368, 0, 768, 864, 872, 999, 0,
++			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC | 
++			DRM_MODE_FLAG_INTERLACE) },
++};
++
++/**
++ * drm_display_mode - get a fixed modeline
++ * @dev: drm device
++ * @hdisplay: hdisplay size
++ * @vdisplay: vdisplay size
++ * @interlaced: whether to compute an interlaced mode
++ *
++ * This function returns a modeline among drm_switchres_modes. These are fixed
++ * modelines, until someday switchres definitely gets integrated into kernel.
++ * No need to specify 15 or 25kHz, not the refresh rate as it's only 60Hz for now.
++ * This is a very basic function. Duplicate modes (320x240 and 1024x768) are not
++ * handled, the first result will be returned.
++ * 
++ * Returns:
++ * A switchres modeline
++ */
++struct drm_display_mode *drm_mode_switchres_res(struct drm_device *dev,
++				int hsize, int vsize, bool interlace)
++{
++	int i;
++
++	DRM_DEBUG_KMS("Entering drm_mode_switchres_res for resolution %dx%d (interlace: %s)", hsize, vsize, interlace ? "true" : "false");
++	for (i = 0; i < ARRAY_SIZE(drm_switchres_modes); i++) {
++		const struct drm_display_mode *ptr = &drm_switchres_modes[i];
++		if (hsize != ptr->hdisplay)
++			continue;
++		if (vsize != ptr->vdisplay)
++			continue;
++		//if ((refresh != 0) && (refresh != drm_mode_vrefresh(ptr)))
++		//	continue;
++		if (((! interlace) && (ptr->flags & DRM_MODE_FLAG_INTERLACE)) \
++		    || ((interlace) && ! (ptr->flags & DRM_MODE_FLAG_INTERLACE)))
++			continue;
++		DRM_INFO("Found a switchres mode for %dx%d (interlace: %d)", hsize, vsize, interlace);
++		drm_mode_debug_printmodeline(ptr);
++		return drm_mode_duplicate(dev, ptr);
++	}
++	return NULL;
++}
++EXPORT_SYMBOL(drm_mode_switchres_res);
+diff --git a/drivers/gpu/drm/drm_modes_switchres.h b/drivers/gpu/drm/drm_modes_switchres.h
+new file mode 100644
+index 000000000000..65b2f28adb25
+--- /dev/null
++++ b/drivers/gpu/drm/drm_modes_switchres.h
+@@ -0,0 +1,23 @@
++/*
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the next
++ * paragraph) shall be included in all copies or substantial portions of the
++ * Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * VA LINUX SYSTEMS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++ * OTHER DEALINGS IN THE SOFTWARE.
++ */
++
++struct drm_display_mode *drm_mode_switchres_res(struct drm_device *dev,
++				int hsize, int vsize, bool interlace);
+diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+index ef2c468205a2..911ecbc2172b 100644
+--- a/drivers/gpu/drm/drm_probe_helper.c
++++ b/drivers/gpu/drm/drm_probe_helper.c
+@@ -390,6 +390,7 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+ {
+ 	struct drm_device *dev = connector->dev;
+ 	struct drm_display_mode *mode;
++	struct drm_cmdline_mode *cmdline_mode;
+ 	const struct drm_connector_helper_funcs *connector_funcs =
+ 		connector->helper_private;
+ 	int count = 0, ret;
+@@ -484,10 +485,11 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+ 	 * Fallback for when DDC probe failed in drm_get_edid() and thus skipped
+ 	 * override/firmware EDID.
+ 	 */
++	cmdline_mode = &connector->cmdline_mode;
+ 	if (count == 0 && connector->status == connector_status_connected)
+ 		count = drm_add_override_edid_modes(connector);
+ 
+-	if (count == 0 && connector->status == connector_status_connected)
++	if (count == 0 && connector->status == connector_status_connected && ! cmdline_mode->switchres)
+ 		count = drm_add_modes_noedid(connector, 1024, 768);
+ 	count += drm_helper_probe_add_cmdline_mode(connector);
+ 	if (count == 0)
+@@ -503,22 +505,28 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+ 		mode_flags |= DRM_MODE_FLAG_3D_MASK;
+ 
+ 	list_for_each_entry(mode, &connector->modes, head) {
++		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_driver mode is : %d\n", connector->base.id, connector->name, mode->status);
+ 		if (mode->status == MODE_OK)
+ 			mode->status = drm_mode_validate_driver(dev, mode);
+ 
++		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_size mode is : %d\n", connector->base.id, connector->name, mode->status);
+ 		if (mode->status == MODE_OK)
+ 			mode->status = drm_mode_validate_size(mode, maxX, maxY);
+ 
++		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_flag mode is : %d\n", connector->base.id, connector->name, mode->status);
+ 		if (mode->status == MODE_OK)
+ 			mode->status = drm_mode_validate_flag(mode, mode_flags);
+ 
++		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_pipeline mode is : %d\n", connector->base.id, connector->name, mode->status);
+ 		if (mode->status == MODE_OK)
+ 			mode->status = drm_mode_validate_pipeline(mode,
+ 								  connector);
+ 
++		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_ycbcr420 mode is : %d\n", connector->base.id, connector->name, mode->status);
+ 		if (mode->status == MODE_OK)
+ 			mode->status = drm_mode_validate_ycbcr420(mode,
+ 								  connector);
++		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] in the end mode is : %d\n", connector->base.id, connector->name, mode->status);
+ 	}
+ 
+ prune:
+diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+index 681cb590f952..376ee3f085d7 100644
+--- a/include/drm/drm_connector.h
++++ b/include/drm/drm_connector.h
+@@ -1069,6 +1069,13 @@ struct drm_cmdline_mode {
+ 	 * @tv_margins: TV margins to apply to the mode.
+ 	 */
+ 	struct drm_connector_tv_margins tv_margins;
++
++	/**
++	 * @switchres:
++	 *
++	 * The timings will be calculated with switchres for 15/25kHz
++	 */
++	bool switchres;
+ };
+ 
+ /**
+diff --git a/scripts/depmod.sh b/scripts/depmod.sh
+index e083bcae343f..c5e905730262 100755
+--- a/scripts/depmod.sh
++++ b/scripts/depmod.sh
+@@ -1,5 +1,5 @@
+ #!/bin/sh
+-# SPDX-License-Identifier: GPL-2.0
++exit 0
+ #
+ # A depmod wrapper used by the toplevel Makefile
+ 
