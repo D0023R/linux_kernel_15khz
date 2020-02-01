@@ -1,21 +1,6 @@
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 82ff826b33cc..9e677d2d19b9 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -17,7 +17,8 @@ drm-y       :=	drm_auth.o drm_cache.o \
- 		drm_plane.o drm_color_mgmt.o drm_print.o \
- 		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
- 		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
--		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o
-+		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
-+		drm_modes_switchres.o
- 
- drm-$(CONFIG_DRM_LEGACY) += drm_legacy_misc.o drm_bufs.o drm_context.o drm_dma.o drm_scatter.o drm_lock.o
- drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
-diff --git a/drivers/gpu/drm/drm_modes.c b/drivers/gpu/drm/drm_modes.c
-index 88232698d7a0..51f0d0c292cd 100644
---- a/drivers/gpu/drm/drm_modes.c
-+++ b/drivers/gpu/drm/drm_modes.c
+diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.5_stock/drivers/gpu/drm/drm_modes.c linux-5.5_15kHz/drivers/gpu/drm/drm_modes.c
+--- linux-5.5_stock/drivers/gpu/drm/drm_modes.c	2020-01-27 01:23:03.000000000 +0100
++++ linux-5.5_15kHz/drivers/gpu/drm/drm_modes.c	2020-02-01 17:49:44.393411612 +0100
 @@ -44,6 +44,7 @@
  #include <drm/drm_print.h>
  
@@ -24,7 +9,7 @@ index 88232698d7a0..51f0d0c292cd 100644
  
  /**
   * drm_mode_debug_printmodeline - print a mode to dmesg
-@@ -1510,7 +1511,7 @@ static int drm_mode_parse_cmdline_res_mode(const char *str, unsigned int length,
+@@ -1510,7 +1511,7 @@
  					   struct drm_cmdline_mode *mode)
  {
  	const char *str_start = str;
@@ -33,7 +18,7 @@ index 88232698d7a0..51f0d0c292cd 100644
  	int xres = 0, yres = 0;
  	int remaining, i;
  	char *end_ptr;
-@@ -1540,6 +1541,12 @@ static int drm_mode_parse_cmdline_res_mode(const char *str, unsigned int length,
+@@ -1540,6 +1541,12 @@
  		case 'R':
  			rb = true;
  			break;
@@ -46,7 +31,7 @@ index 88232698d7a0..51f0d0c292cd 100644
  		default:
  			/*
  			 * Try to pass that to our extras parsing
-@@ -1564,6 +1569,7 @@ static int drm_mode_parse_cmdline_res_mode(const char *str, unsigned int length,
+@@ -1564,6 +1571,7 @@
  	mode->yres = yres;
  	mode->cvt = cvt;
  	mode->rb = rb;
@@ -54,7 +39,7 @@ index 88232698d7a0..51f0d0c292cd 100644
  
  	return 0;
  }
-@@ -1886,7 +1892,11 @@ drm_mode_create_from_cmdline_mode(struct drm_device *dev,
+@@ -1886,7 +1894,11 @@
  {
  	struct drm_display_mode *mode;
  
@@ -67,11 +52,9 @@ index 88232698d7a0..51f0d0c292cd 100644
  		mode = drm_cvt_mode(dev,
  				    cmd->xres, cmd->yres,
  				    cmd->refresh_specified ? cmd->refresh : 60,
-diff --git a/drivers/gpu/drm/drm_modes_switchres.c b/drivers/gpu/drm/drm_modes_switchres.c
-new file mode 100644
-index 000000000000..8f24eda64527
---- /dev/null
-+++ b/drivers/gpu/drm/drm_modes_switchres.c
+diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.5_stock/drivers/gpu/drm/drm_modes_switchres.c linux-5.5_15kHz/drivers/gpu/drm/drm_modes_switchres.c
+--- linux-5.5_stock/drivers/gpu/drm/drm_modes_switchres.c	1970-01-01 01:00:00.000000000 +0100
++++ linux-5.5_15kHz/drivers/gpu/drm/drm_modes_switchres.c	2020-02-01 17:49:44.393411612 +0100
 @@ -0,0 +1,115 @@
 +/*
 + * Permission is hereby granted, free of charge, to any person obtaining a
@@ -188,11 +171,9 @@ index 000000000000..8f24eda64527
 +	return NULL;
 +}
 +EXPORT_SYMBOL(drm_mode_switchres_res);
-diff --git a/drivers/gpu/drm/drm_modes_switchres.h b/drivers/gpu/drm/drm_modes_switchres.h
-new file mode 100644
-index 000000000000..65b2f28adb25
---- /dev/null
-+++ b/drivers/gpu/drm/drm_modes_switchres.h
+diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.5_stock/drivers/gpu/drm/drm_modes_switchres.h linux-5.5_15kHz/drivers/gpu/drm/drm_modes_switchres.h
+--- linux-5.5_stock/drivers/gpu/drm/drm_modes_switchres.h	1970-01-01 01:00:00.000000000 +0100
++++ linux-5.5_15kHz/drivers/gpu/drm/drm_modes_switchres.h	2020-02-01 17:49:44.393411612 +0100
 @@ -0,0 +1,23 @@
 +/*
 + * Permission is hereby granted, free of charge, to any person obtaining a
@@ -217,11 +198,10 @@ index 000000000000..65b2f28adb25
 +
 +struct drm_display_mode *drm_mode_switchres_res(struct drm_device *dev,
 +				int hsize, int vsize, bool interlace);
-diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-index ef2c468205a2..911ecbc2172b 100644
---- a/drivers/gpu/drm/drm_probe_helper.c
-+++ b/drivers/gpu/drm/drm_probe_helper.c
-@@ -390,6 +390,7 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.5_stock/drivers/gpu/drm/drm_probe_helper.c linux-5.5_15kHz/drivers/gpu/drm/drm_probe_helper.c
+--- linux-5.5_stock/drivers/gpu/drm/drm_probe_helper.c	2020-01-27 01:23:03.000000000 +0100
++++ linux-5.5_15kHz/drivers/gpu/drm/drm_probe_helper.c	2020-02-01 17:49:44.394411598 +0100
+@@ -390,6 +390,7 @@
  {
  	struct drm_device *dev = connector->dev;
  	struct drm_display_mode *mode;
@@ -229,7 +209,7 @@ index ef2c468205a2..911ecbc2172b 100644
  	const struct drm_connector_helper_funcs *connector_funcs =
  		connector->helper_private;
  	int count = 0, ret;
-@@ -484,10 +485,11 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+@@ -484,10 +485,11 @@
  	 * Fallback for when DDC probe failed in drm_get_edid() and thus skipped
  	 * override/firmware EDID.
  	 */
@@ -242,7 +222,7 @@ index ef2c468205a2..911ecbc2172b 100644
  		count = drm_add_modes_noedid(connector, 1024, 768);
  	count += drm_helper_probe_add_cmdline_mode(connector);
  	if (count == 0)
-@@ -503,22 +505,28 @@ int drm_helper_probe_single_connector_modes(struct drm_connector *connector,
+@@ -503,22 +505,28 @@
  		mode_flags |= DRM_MODE_FLAG_3D_MASK;
  
  	list_for_each_entry(mode, &connector->modes, head) {
@@ -271,11 +251,23 @@ index ef2c468205a2..911ecbc2172b 100644
  	}
  
  prune:
-diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-index 681cb590f952..376ee3f085d7 100644
---- a/include/drm/drm_connector.h
-+++ b/include/drm/drm_connector.h
-@@ -1069,6 +1069,13 @@ struct drm_cmdline_mode {
+diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.5_stock/drivers/gpu/drm/Makefile linux-5.5_15kHz/drivers/gpu/drm/Makefile
+--- linux-5.5_stock/drivers/gpu/drm/Makefile	2020-01-27 01:23:03.000000000 +0100
++++ linux-5.5_15kHz/drivers/gpu/drm/Makefile	2020-02-01 17:49:44.392411627 +0100
+@@ -17,7 +17,8 @@
+ 		drm_plane.o drm_color_mgmt.o drm_print.o \
+ 		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
+ 		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
+-		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o
++		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
++		drm_modes_switchres.o
+ 
+ drm-$(CONFIG_DRM_LEGACY) += drm_legacy_misc.o drm_bufs.o drm_context.o drm_dma.o drm_scatter.o drm_lock.o
+ drm-$(CONFIG_DRM_LIB_RANDOM) += lib/drm_random.o
+diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.5_stock/include/drm/drm_connector.h linux-5.5_15kHz/include/drm/drm_connector.h
+--- linux-5.5_stock/include/drm/drm_connector.h	2020-01-27 01:23:03.000000000 +0100
++++ linux-5.5_15kHz/include/drm/drm_connector.h	2020-02-01 17:49:44.394411598 +0100
+@@ -1073,6 +1073,13 @@
  	 * @tv_margins: TV margins to apply to the mode.
  	 */
  	struct drm_connector_tv_margins tv_margins;
@@ -289,4 +281,3 @@ index 681cb590f952..376ee3f085d7 100644
  };
  
  /**
- 

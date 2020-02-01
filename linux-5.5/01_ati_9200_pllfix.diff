@@ -1,6 +1,6 @@
-diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.5-rc7_stock/drivers/gpu/drm/radeon/radeon_clocks.c linux-5.5-rc7_15kHz/drivers/gpu/drm/radeon/radeon_clocks.c
---- linux-5.5-rc7_stock/drivers/gpu/drm/radeon/radeon_clocks.c	2020-01-20 01:02:49.000000000 +0100
-+++ linux-5.5-rc7_15kHz/drivers/gpu/drm/radeon/radeon_clocks.c	2020-01-24 16:06:23.896392444 +0100
+diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.5_stock/drivers/gpu/drm/radeon/radeon_clocks.c linux-5.5_15kHz/drivers/gpu/drm/radeon/radeon_clocks.c
+--- linux-5.5_stock/drivers/gpu/drm/radeon/radeon_clocks.c	2020-01-27 01:23:03.000000000 +0100
++++ linux-5.5_15kHz/drivers/gpu/drm/radeon/radeon_clocks.c	2020-02-01 17:48:55.603127025 +0100
 @@ -246,7 +246,8 @@
  			if (rdev->family >= CHIP_R420) {
  				p1pll->pll_in_min = 100;
@@ -21,9 +21,9 @@ diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.5-rc7
  				p1pll->pll_out_max = 35000;
  				p2pll->pll_in_min = 40;
  				p2pll->pll_in_max = 500;
-diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.5-rc7_stock/drivers/gpu/drm/radeon/radeon_combios.c linux-5.5-rc7_15kHz/drivers/gpu/drm/radeon/radeon_combios.c
---- linux-5.5-rc7_stock/drivers/gpu/drm/radeon/radeon_combios.c	2020-01-20 01:02:49.000000000 +0100
-+++ linux-5.5-rc7_15kHz/drivers/gpu/drm/radeon/radeon_combios.c	2020-01-24 16:06:23.898392414 +0100
+diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.5_stock/drivers/gpu/drm/radeon/radeon_combios.c linux-5.5_15kHz/drivers/gpu/drm/radeon/radeon_combios.c
+--- linux-5.5_stock/drivers/gpu/drm/radeon/radeon_combios.c	2020-01-27 01:23:03.000000000 +0100
++++ linux-5.5_15kHz/drivers/gpu/drm/radeon/radeon_combios.c	2020-02-01 17:48:55.604127010 +0100
 @@ -747,7 +747,8 @@
  		/* pixel clocks */
  		p1pll->reference_freq = RBIOS16(pll_info + 0xe);
