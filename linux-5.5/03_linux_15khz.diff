@@ -289,14 +289,4 @@ index 681cb590f952..376ee3f085d7 100644
  };
  
  /**
-diff --git a/scripts/depmod.sh b/scripts/depmod.sh
-index e083bcae343f..c5e905730262 100755
---- a/scripts/depmod.sh
-+++ b/scripts/depmod.sh
-@@ -1,5 +1,5 @@
- #!/bin/sh
--# SPDX-License-Identifier: GPL-2.0
-+exit 0
- #
- # A depmod wrapper used by the toplevel Makefile
  
