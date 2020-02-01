@@ -81,6 +81,10 @@ NOTES:
     If you are using early KMS with initramfs, the custom EDID file must be included or the kernel will not find it.  
     Using the custom EDID method, X server will start in the EDID defined configuration. No need to specify any modeline.  
 
+## CONTRIBUTORS:
+
+- Substring, https://github.com/substring
+
 ## SOURCES:
 
 1. MaKoTo, https://burogu.makotoworkshop.org/index.php?post/2012/12/26/borne-arcade-40
