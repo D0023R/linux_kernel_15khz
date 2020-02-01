@@ -32,7 +32,7 @@ The patch enable the selection of the desired video mode during the boot process
 The parameters must be provided to your boot loader (grub, syslinux, ...) and appended to your kernel parameters.
 
 ### Since 5.5
-You can specify "640x480" or "320x240" resolution at boot by adding either `video=VGA-1:640x480ieS` or `video=VGA-1:320x240eS` to the kernel line.
+You can specify interlace "640x480" or progressive "320x240" resolution at boot by adding either `video=VGA-1:640x480ieS` or `video=VGA-1:320x240eS` to the kernel line.
 
 - "VGA-1" is the name of the video connector (see the kernel documentation or xrandr utility output for more info)
 - 'e' letter is needed to switch on and enable the output connector
