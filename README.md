@@ -30,16 +30,16 @@ The parameters must be provided to your boot loader (grub, syslinux, ...) and ap
 You can specify interlace "640x480" or progressive "320x240" resolution at boot by adding either `video=VGA-1:640x480ieS` or `video=VGA-1:320x240eS` to the kernel line.
 
 - "VGA-1" is the name of the video connector (see the kernel documentation or xrandr utility output for more info)
-- 'e' letter is needed to switch on and enable the output connector
-- 'i' letter means interlace, see next comment
-- 'S' letter tells to use switchres resolutions. As for now, resolutions are hardcoded, here is a list of them. Use the exact resolution, including the `i`:
+- parameter 'e' letter is needed to enable and activate the output connector
+- parameter 'S' letter tells to use switchres resolutions. As for now, resolutions are hardcoded, here is a list of them. Use the exact resolution name ('i' letter means interlaced and is part of the name)
   - 15kHz modes:
     - 320x240 progressive
+    - 640x240 progressive (available as additional patch)
     - 640x480i interlace
     - 720x480i interlace
     - 768x576i interlace
     - 800x576i interlace (50Hz)
-    - 1280x480i interlace (for video cards that require a miiinimum dotclock of 25MHz such as NVidia and Intel)
+    - 1280x480i interlace (for video cards that require a minimum dotclock of 25MHz such as NVidia and Intel)
   - 25kHz modes:
     - 512x384 progressive
     - 800x600i interlace
