@@ -26,12 +26,19 @@ Please use the folder named linux-X.Y corresponding to your kernel version.
 The patch enable the selection of the desired video mode during the boot process.
 The parameters must be provided to your boot loader (grub, syslinux, ...) and appended to your kernel parameters.
 
-### Since 5.5
+### From kernel 5.6
+
+Two more resolutions have been made available in the patch:
+  - 15kHz modes:
+    - 384x288 progressive
+    - 640x240 progressive
+
+### Since kernel 5.5
 You can specify interlace "640x480" or progressive "320x240" resolution at boot by adding either `video=VGA-1:640x480ieS` or `video=VGA-1:320x240eS` to the kernel line.
 
 - "VGA-1" is the name of the video connector (see the kernel documentation or xrandr utility output for more info)
 - parameter 'e' letter is needed to enable and activate the output connector
-- parameter 'S' letter tells to use switchres resolutions. As for now, resolutions are hardcoded, here is a list of them. Use the exact resolution name ('i' letter means interlaced and is part of the name)
+- parameter 'S' letter tells to use the low dotclock resolutions. As for now, resolutions are hardcoded, here is a list of them. Use the exact resolution name ('i' letter means interlaced and is part of the name)
   - 15kHz modes:
     - 320x240 progressive
     - 640x240 progressive (available as additional patch)
@@ -51,7 +58,7 @@ E.g. for syslinux.cfg:
 append root=/dev/sda1 rw vga=785 <...other parameters...> video=VGA-1:640x480ieS
 ```
 
-### Before 5.5
+### Before kernel 5.5
 You can specify "640x480" or "800x600" resolution at boot by adding either "video=VGA-1:640x480ec" or "video=VGA-1:800x600ez" to the kernel line.
 
 - "VGA-1" is the name of the video connector (see the kernel documentation or xrandr utility output for more info)
