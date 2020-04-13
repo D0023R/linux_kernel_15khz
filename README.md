@@ -45,6 +45,7 @@ You can specify interlace "640x480" or progressive "320x240" resolution at boot 
     - 320x240 progressive
     - 640x240 progressive (available as additional patch)
     - 640x480i interlace
+    - 648x480i interlace
     - 720x480i interlace
     - 768x576i interlace
     - 800x576i interlace (50Hz)
