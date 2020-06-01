@@ -28,7 +28,7 @@ Please use the folder named linux-X.Y corresponding to your kernel version.
 The patch enable the selection of the desired video mode during the boot process.
 The parameters must be provided to your boot loader (grub, syslinux, ...) and appended to your kernel parameters.
 
-### From kernel 5.6
+### With kernel 5.6
 
 Two more resolutions have been made available in the patch:
   - 15kHz modes:
