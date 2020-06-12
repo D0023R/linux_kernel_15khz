@@ -6,7 +6,10 @@ The provided kernel patches enable the 15kHz video support with additional featu
 
 - linux_15khz.diff (main patch for 15 kHz support)
 - linux_15khz_interlaced_mode_fix.diff (fix the vertical blank interrupt reporting to make interlaced resolution workings with groovymame)
-- linux_15khz_scanoutpos.diff (optional, enable scanline position reporting to user space, will be required to support future groovymame synchronisation library)
+
+Optional for the time being (staging folder)
+
+- linux_15khz_scanoutpos.diff (enable scanline position reporting to user space, will be required to support future groovymame synchronisation library)
 
 ### Deprecated since kernel 5.6
 - ati_9200_pllfix.diff (only required to support ATI 9200 card model)
