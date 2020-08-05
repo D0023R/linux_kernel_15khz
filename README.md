@@ -1,6 +1,6 @@
 # This repository contains the Linux kernel 15kHz video patches
 
-The provided kernel patches enable the 15kHz video support with additional features for Linux.
+The provided kernel patches enable the 15kHz video output with additional features for Linux.
 
 ## PATCH LIBRARY CONTENT:
 
