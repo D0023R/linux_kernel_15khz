@@ -1,0 +1,16 @@
+diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.11_stock/drivers/gpu/drm/drm_vblank.c linux-5.11_15kHz/drivers/gpu/drm/drm_vblank.c
+--- linux-5.11_stock/drivers/gpu/drm/drm_vblank.c	2021-02-14 23:32:24.000000000 +0100
++++ linux-5.11_15kHz/drivers/gpu/drm/drm_vblank.c	2021-02-15 20:12:35.404040253 +0100
+@@ -351,8 +351,10 @@
+ 		    diff, cur_vblank, vblank->last);
+ 
+ 	if (diff == 0) {
+-		drm_WARN_ON_ONCE(dev, cur_vblank != vblank->last);
+-		return;
++		// fix interlaced vblank
++		//drm_WARN_ON_ONCE(dev, cur_vblank != vblank->last);
++		//return;
++		diff = 1;
+ 	}
+ 
+ 	/*
