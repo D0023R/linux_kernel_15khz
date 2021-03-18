@@ -55,7 +55,7 @@ diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.11_st
 diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.11_stock/drivers/gpu/drm/drm_modes_low_dotclock.c linux-5.11_15kHz/drivers/gpu/drm/drm_modes_low_dotclock.c
 --- linux-5.11_stock/drivers/gpu/drm/drm_modes_low_dotclock.c	1970-01-01 01:00:00.000000000 +0100
 +++ linux-5.11_15kHz/drivers/gpu/drm/drm_modes_low_dotclock.c	2021-02-15 19:59:12.794112262 +0100
-@@ -0,0 +1,132 @@
+@@ -0,0 +1,136 @@
 +/*
 + * Permission is hereby granted, free of charge, to any person obtaining a
 + * copy of this software and associated documentation files (the "Software"),
@@ -146,6 +146,10 @@ diff -Naur -x '*.rej' -x '*.orig' -x build -x awk_x86_64_defconfig linux-5.11_st
 +	{ DRM_MODE("1280x240", DRM_MODE_TYPE_DRIVER, 39790, 1280, 1312,
 +			1471, 1598, 0, 240, 314, 319, 415, 0,
 +			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
++	/* 640x480@60.00 31 Khz */
++	{ DRM_MODE("1280x240", DRM_MODE_TYPE_DRIVER, 25200, 640, 656,
++	 752, 800, 0, 480, 489, 492, 525, 0,
++	 DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) }
 +};
 +
 +/**
