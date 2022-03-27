@@ -1,0 +1,36 @@
+diff -Naur linux-5.1_stock/drivers/gpu/drm/radeon/radeon_clocks.c linux-5.1/drivers/gpu/drm/radeon/radeon_clocks.c
+--- linux-5.1_stock/drivers/gpu/drm/radeon/radeon_clocks.c	2019-05-06 02:42:58.000000000 +0200
++++ linux-5.1/drivers/gpu/drm/radeon/radeon_clocks.c	2019-05-06 16:10:54.585824591 +0200
+@@ -243,7 +243,8 @@
+ 			if (rdev->family >= CHIP_R420) {
+ 				p1pll->pll_in_min = 100;
+ 				p1pll->pll_in_max = 1350;
+-				p1pll->pll_out_min = 20000;
++				//p1pll->pll_out_min = 20000;
++				p1pll->pll_out_min = 4308;
+ 				p1pll->pll_out_max = 50000;
+ 				p2pll->pll_in_min = 100;
+ 				p2pll->pll_in_max = 1350;
+@@ -252,7 +253,8 @@
+ 			} else {
+ 				p1pll->pll_in_min = 40;
+ 				p1pll->pll_in_max = 500;
+-				p1pll->pll_out_min = 12500;
++				//p1pll->pll_out_min = 12500;
++				p1pll->pll_out_min = 4308;
+ 				p1pll->pll_out_max = 35000;
+ 				p2pll->pll_in_min = 40;
+ 				p2pll->pll_in_max = 500;
+diff -Naur linux-5.1_stock/drivers/gpu/drm/radeon/radeon_combios.c linux-5.1/drivers/gpu/drm/radeon/radeon_combios.c
+--- linux-5.1_stock/drivers/gpu/drm/radeon/radeon_combios.c	2019-05-06 02:42:58.000000000 +0200
++++ linux-5.1/drivers/gpu/drm/radeon/radeon_combios.c	2019-05-06 16:10:54.587824562 +0200
+@@ -744,7 +744,8 @@
+ 		/* pixel clocks */
+ 		p1pll->reference_freq = RBIOS16(pll_info + 0xe);
+ 		p1pll->reference_div = RBIOS16(pll_info + 0x10);
+-		p1pll->pll_out_min = RBIOS32(pll_info + 0x12);
++		//p1pll->pll_out_min = RBIOS32(pll_info + 0x12);
++		p1pll->pll_out_min = 4308;
+ 		p1pll->pll_out_max = RBIOS32(pll_info + 0x16);
+ 		p1pll->lcd_pll_out_min = p1pll->pll_out_min;
+ 		p1pll->lcd_pll_out_max = p1pll->pll_out_max;
