@@ -90,8 +90,8 @@ diff -Naur linux-5.15_stock/drivers/gpu/drm/drm_modes_low_dotclock.c linux-5.15_
 +	{ DRM_MODE("320x240", DRM_MODE_TYPE_DRIVER, 6640, 320, 336,
 +			368, 424, 0, 240, 242, 245, 261, 0,
 +			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
-+	/* 384x288 15 Khz */
-+	{ DRM_MODE("384x288", DRM_MODE_TYPE_DRIVER, 78876, 384, 400,
++	/* 384x288@60.00 15 Khz */
++	{ DRM_MODE("384x288", DRM_MODE_TYPE_DRIVER, 7887, 384, 400,
 +			440, 504, 0, 288, 292, 295, 313, 0,
 +			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC) },
 +	/* 640x240@60.00 15 Khz */
