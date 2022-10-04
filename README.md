@@ -4,8 +4,15 @@ The provided kernel patches enable the 15kHz video output with additional featur
 
 ## PATCH LIBRARY CONTENT:
 
-- linux_15khz.patch (main patch for 15 kHz support)
-- linux_15khz_interlaced_mode_fix.patch (fix the vertical blank interrupt reporting to make interlaced resolution workings with groovymame)
+- 01_linux_15khz.patch (main patch for 15 kHz support)
+- 02_linux_15khz_interlaced_mode_fix.patch (fix the vertical blank interrupt reporting to make interlaced resolution workings with switchres library https://github.com/antonioginer/switchres)
+
+Starting with linux kernel 6.0, additional patches are provided.
+
+- 03_linux_15khz_dcn1_dcn2_interlaced_mode_fix.patch (necessary from amdgpu, standalone graphic cards and APU)
+- 04_linux_15khz_amdgpu_pll_fix.patch (fix amdgpu PLL calculation)
+- 05_linux_switchres_kms_drm_modesetting.patch (introduce KMS modesetting manipulation for X-less switchres KMS usage, groovyarcade related)
+
 
 Optional for the time being (staging folder)
 
