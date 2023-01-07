@@ -43,7 +43,7 @@ Index: linux-6.1/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
 ===================================================================
 --- linux-6.1.orig/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
 +++ linux-6.1/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-@@ -2660,6 +2660,9 @@ static void update_scaler(struct pipe_ct
+@@ -2686,6 +2686,9 @@ static void update_scaler(struct pipe_ct
  	pipe_ctx->plane_res.scl_data.lb_params.alpha_en = per_pixel_alpha;
  	pipe_ctx->plane_res.scl_data.lb_params.depth = LB_PIXEL_DEPTH_36BPP;
  	/* scaler configuration */
@@ -53,7 +53,7 @@ Index: linux-6.1/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
  	pipe_ctx->plane_res.dpp->funcs->dpp_set_scaler(
  			pipe_ctx->plane_res.dpp, &pipe_ctx->plane_res.scl_data);
  }
-@@ -3684,8 +3687,7 @@ int dcn10_get_vupdate_offset_from_vsync(
+@@ -3710,8 +3713,7 @@ int dcn10_get_vupdate_offset_from_vsync(
  
  	asic_blank_end = (patched_crtc_timing.v_total -
  			vesa_sync_start -

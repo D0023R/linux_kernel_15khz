@@ -347,7 +347,7 @@ Index: linux-6.1/include/drm/drm_connector.h
 ===================================================================
 --- linux-6.1.orig/include/drm/drm_connector.h
 +++ linux-6.1/include/drm/drm_connector.h
-@@ -1435,6 +1435,14 @@ struct drm_connector {
+@@ -1441,6 +1441,14 @@ struct drm_connector {
  	struct list_head probed_modes;
  
  	/**

@@ -200,7 +200,7 @@ Index: linux-6.1/drivers/gpu/drm/drm_modes_low_dotclock.c
 +		if (((! interlace) && (ptr->flags & DRM_MODE_FLAG_INTERLACE)) \
 +		    || ((interlace) && ! (ptr->flags & DRM_MODE_FLAG_INTERLACE)))
 +			continue;
-+		DRM_INFO("Found a low dotclock mode for %dx%d (interlace: %d)", hsize, vsize, interlace);
++		DRM_DEBUG_KMS("Found a low dotclock mode for %dx%d (interlace: %d)", hsize, vsize, interlace);
 +		drm_mode_debug_printmodeline(ptr);
 +		return drm_mode_duplicate(dev, ptr);
 +	}
@@ -305,7 +305,7 @@ Index: linux-6.1/include/drm/drm_connector.h
 ===================================================================
 --- linux-6.1.orig/include/drm/drm_connector.h
 +++ linux-6.1/include/drm/drm_connector.h
-@@ -1298,6 +1298,13 @@ struct drm_cmdline_mode {
+@@ -1304,6 +1304,13 @@ struct drm_cmdline_mode {
  	 * @tv_margins: TV margins to apply to the mode.
  	 */
  	struct drm_connector_tv_margins tv_margins;
