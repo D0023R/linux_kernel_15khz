@@ -306,3 +306,15 @@ Index: linux-6.2/include/drm/drm_connector.h
  };
  
  /**
+Index: linux-6.2/drivers/gpu/drm/Makefile
+===================================================================
+--- linux-6.2.orig/drivers/gpu/drm/Makefile
++++ linux-6.2/drivers/gpu/drm/Makefile
+@@ -30,6 +30,7 @@ drm-y := \
+ 	drm_ioctl.o \
+ 	drm_lease.o \
+ 	drm_managed.o \
++	drm_modes_low_dotclock.o \
+ 	drm_mm.o \
+ 	drm_mode_config.o \
+ 	drm_mode_object.o \
