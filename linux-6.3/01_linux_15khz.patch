@@ -273,7 +273,7 @@ Index: linux-6.3/drivers/gpu/drm/drm_probe_helper.c
  	int count = 0, ret;
  	enum drm_connector_status old_status;
  	struct drm_modeset_acquire_ctx ctx;
-@@ -605,10 +613,13 @@ retry:
+@@ -606,10 +614,13 @@ retry:
  		goto exit;
  	}
  
