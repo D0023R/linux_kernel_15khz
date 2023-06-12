@@ -38,32 +38,31 @@ Please use the folder named linux-X.Y corresponding to your kernel version.
 The patch enable the selection of the desired video mode during the boot process.
 The parameters must be provided to your boot loader (grub, syslinux, ...) and appended to your kernel parameters.
 
-### With kernel 5.6
-
-Two more resolutions have been made available in the patch:
-  - 15kHz modes:
-    - 384x288 progressive
-    - 640x240 progressive
-
-### Since kernel 5.5
+### Since kernel 5.6
 You can specify interlace "640x480" or progressive "320x240" resolution at boot by adding either `video=VGA-1:640x480ieS` or `video=VGA-1:320x240eS` to the kernel line.
 
 - "VGA-1" is the name of the video connector (see the kernel documentation or xrandr utility output for more info)
 - parameter 'e' letter is needed to enable and activate the output connector
 - parameter 'S' letter tells to use the low dotclock resolutions. As for now, resolutions are hardcoded, here is a list of them. Use the exact resolution name ('i' letter means interlaced and is part of the name)
+
   - 15kHz modes:
-    - 320x240 progressive
-    - 640x240 progressive (available as additional patch)
-    - 640x480i interlace
-    - 648x480i interlace
-    - 720x480i interlace
-    - 768x576i interlace
-    - 800x576i interlace (50Hz)
-    - 1280x480i interlace (for video cards that require a minimum dotclock of 25MHz such as NVidia and Intel)
+    - "320x240"     /* 320x240 60.00 Hz */
+    - "384x288"     /* 384x288 50.00 Hz */
+    - "640x240"     /* 640x240 60.00 Hz */
+    - "640x480i"    /* 640x480 60.00 Hz */
+    - "648x480i"    /* 648x480 60.00 Hz */
+    - "720x480i"    /* 720x480 59.95 Hz */
+    - "768x576i"    /* 768x576 50.00 Hz */
+    - "800x576i"    /* 800x576 50.00 Hz */
+    - "1280x480i"   /* 1280x480 60.00 Hz */
   - 25kHz modes:
-    - 512x384 progressive
-    - 800x600i interlace
-    - 1024x768i interlace (50Hz)
+    - "512x384"     /* 512x384 58.59 Hz */
+    - "800x600i"    /* 800x600 60.00 Hz */
+    - "1024x768i"   /* 1024x768 50.00 Hz */
+    - "1024x240"    /* 1024x240 60.00 Hz */
+    - "1280x240"    /* 1280x240 60.00 Hz */
+  - 31kHz modes:
+    - "640x480"     /* 640x480 60.00 Hz */
 
 E.g. for syslinux.cfg:
 
@@ -71,7 +70,7 @@ E.g. for syslinux.cfg:
 append root=/dev/sda1 rw vga=785 <...other parameters...> video=VGA-1:640x480ieS
 ```
 
-### Before kernel 5.5
+### Before kernel 5.6
 You can specify "640x480" or "800x600" resolution at boot by adding either "video=VGA-1:640x480ec" or "video=VGA-1:800x600ez" to the kernel line.
 
 - "VGA-1" is the name of the video connector (see the kernel documentation or xrandr utility output for more info)
@@ -109,3 +108,4 @@ NOTES:
 
 1. MaKoTo, https://burogu.makotoworkshop.org/index.php?post/2012/12/26/borne-arcade-40
 2. Ansa89, https://github.com/Ansa89/linux-15khz-patch
+
