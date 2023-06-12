@@ -57,7 +57,7 @@ Index: linux-6.3/drivers/gpu/drm/drm_modes_low_dotclock.c
 ===================================================================
 --- /dev/null
 +++ linux-6.3/drivers/gpu/drm/drm_modes_low_dotclock.c
-@@ -0,0 +1,149 @@
+@@ -0,0 +1,155 @@
 +/*
 + * Permission is hereby granted, free of charge, to any person obtaining a
 + * copy of this software and associated documentation files (the "Software"),
@@ -105,6 +105,12 @@ Index: linux-6.3/drivers/gpu/drm/drm_modes_low_dotclock.c
 +			13038, 640, 666, 727, 831, 0, 480, 483, 489, 523, 0,
 +			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC |
 +		DRM_MODE_FLAG_INTERLACE) },
++        /* 648x480 60.00 - generic_15 */
++                /* Switchres: Modeline "648x480_60i 15.690000KHz 60.000000Hz" 13.210980 648 674 736 842 480 483 489 523 interlace -hsync -vsync */
++                { DRM_MODE("648x480i", DRM_MODE_TYPE_DRIVER,
++                        13210, 648, 674, 736, 842, 0, 480, 483, 489, 523, 0,
++                        DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_NVSYNC |
++                DRM_MODE_FLAG_INTERLACE) },
 +	/* 720x480 59.95 - generic_15 */
 +		/* Switchres: Modeline "720x480_59i 15.676925KHz 59.950001Hz" 14.657925 720 749 818 935 480 483 489 523 interlace -hsync -vsync */
 +		{ DRM_MODE("720x480i", DRM_MODE_TYPE_DRIVER,
