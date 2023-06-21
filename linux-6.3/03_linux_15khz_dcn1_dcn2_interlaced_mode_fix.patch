@@ -30,7 +30,7 @@ Index: linux-6.3/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  		return result;
  
  	/*
-@@ -7195,7 +7196,7 @@ void amdgpu_dm_connector_init_helper(str
+@@ -7201,7 +7202,7 @@ void amdgpu_dm_connector_init_helper(str
  
  	aconnector->connector_id = link_index;
  	aconnector->dc_link = link;
