@@ -148,7 +148,7 @@ Index: linux-6.4/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
 ===================================================================
 --- linux-6.4.orig/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
 +++ linux-6.4/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
-@@ -588,9 +588,11 @@ static void fetch_pipe_params(struct dis
+@@ -592,9 +592,11 @@ static void fetch_pipe_params(struct dis
  		mode_lib->vba.VRatioChroma[mode_lib->vba.NumberOfActivePlanes] = scl->vscl_ratio_c;
  		mode_lib->vba.ScalerEnabled[mode_lib->vba.NumberOfActivePlanes] = scl->scl_enable;
  		mode_lib->vba.Interlace[mode_lib->vba.NumberOfActivePlanes] = dst->interlaced;
