@@ -15,8 +15,8 @@ Index: linux-6.5/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  
  	if (recalculate_timing)
  		drm_mode_set_crtcinfo(&saved_mode, 0);
--	else
-+	else if (mode.flags & DRM_MODE_FLAG_INTERLACE)
+-	else if (!old_stream)
++	else if (!old_stream && mode.flags & DRM_MODE_FLAG_INTERLACE)
  		drm_mode_set_crtcinfo(&mode, 0);
  
  	/*
@@ -82,7 +82,7 @@ Index: linux-6.5/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
 ===================================================================
 --- linux-6.5.orig/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
 +++ linux-6.5/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
-@@ -1602,6 +1602,9 @@ static void dcn20_update_dchubp_dpp(
+@@ -1591,6 +1591,9 @@ static void dcn20_update_dchubp_dpp(
  		pipe_ctx->plane_res.scl_data.lb_params.alpha_en = pipe_ctx->plane_state->per_pixel_alpha;
  		ASSERT(pipe_ctx->plane_res.scl_data.lb_params.depth == LB_PIXEL_DEPTH_36BPP);
  		/* scaler configuration */
