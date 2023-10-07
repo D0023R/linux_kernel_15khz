@@ -26,7 +26,7 @@ Index: linux-6.5/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  	}
  
 -	drm_mode_set_crtcinfo(mode, 0);
-+	if (mode.flags & DRM_MODE_FLAG_INTERLACE)
++	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
 +		drm_mode_set_crtcinfo(mode, 0);
  
  	stream = create_validate_stream_for_sink(aconnector, mode,
