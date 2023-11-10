@@ -1,50 +1,46 @@
-# This repository contains the Linux kernel 15kHz video patches
+# This repository contains the Linux Kernel 15kHz video patches
 
 The provided kernel patches enable the 15kHz video output with additional features for Linux.
 
-## PATCH LIBRARY CONTENT:
+## PATCH LIBRARY CONTENT
+
+*Mainline stable* release: **6.6.1**
+
+*Stable* release: **6.5.11**
 
 - 01_linux_15khz.patch (main patch for 15 kHz support)
-- 02_linux_15khz_interlaced_mode_fix.patch (fix the vertical blank interrupt reporting to make interlaced resolution workings with switchres library https://github.com/antonioginer/switchres)
+- 02_linux_15khz_interlaced_mode_fix.patch (necessary for radeon driver, fix the vertical blank interrupt)
+- 03_linux_15khz_dcn1_dcn2_interlaced_mode_fix.patch (necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU)
+- 04_linux_15khz_dce_interlaced_mode_fix.patch (necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU)
+- 05_linux_15khz_amdgpu_pll_fix.patch (necessary for amdgpu driver, fix PLL calculation)
+- 06_linux_switchres_kms_drm_modesetting.patch (introduce KMS modesetting manipulation for X-less switchres KMS usage, groovyarcade kms enabler)
 
-Starting with linux kernel 6.0, additional patches are provided.
+## KERNEL COMPATIBILITY
 
-- 03_linux_15khz_dcn1_dcn2_interlaced_mode_fix.patch (necessary from amdgpu, standalone graphic cards and APU)
-- 04_linux_15khz_amdgpu_pll_fix.patch (fix amdgpu PLL calculation)
-- 05_linux_switchres_kms_drm_modesetting.patch (introduce KMS modesetting manipulation for X-less switchres KMS usage, groovyarcade related)
+For the latest stable release, please use the folder named linux-X.Y from the root folder and corresponding to your kernel version.
+The repository will now be updated to the mainline stable releases only. Older kernel released will be available in side the unmaintaned folder.
 
+## BUILD INSTRUCTIONS
 
-Optional for the time being (staging folder)
-
-- linux_15khz_scanoutpos.patch (enable scanline position reporting to user space, will be required to support future groovymame synchronisation library)
-
-### Deprecated since kernel 5.6
-- ati_9200_pllfix.patch (only required to support ATI 9200 card model)
-- arcadevga_3000.patch (only required to support ARCADEVGA 3000 card model)
-
-## KERNEL COMPATIBILITY:
-
-Please use the folder named linux-X.Y corresponding to your kernel version.
-
-## BUILD INSTRUCTIONS:
-
-- Download and install the kernel source
-- Select the appropriate patch subfolder based on the your kernel version
-- Apply the relevant patches to your kernel sources
+- Download and install the kernel source (https://kernel.org/)
+- Select the appropriate patch subfolder based on your kernel version
+- Apply the relevant patches to the kernel source
 - Compile and install the kernel
 
-## SETUP AND CONFIGURATION:
+## SETUP AND CONFIGURATION
 
 The patch enable the selection of the desired video mode during the boot process.
-The parameters must be provided to your boot loader (grub, syslinux, ...) and appended to your kernel parameters.
+The parameters must be provided as kernel parameters via your boot loader (grub, syslinux, ...).
 
 ### Since kernel 5.6
+
 You can specify interlace "640x480" or progressive "320x240" resolution at boot by adding either `video=VGA-1:640x480ieS` or `video=VGA-1:320x240eS` to the kernel line.
 
 - "VGA-1" is the name of the video connector (see the kernel documentation or xrandr utility output for more info)
 - parameter 'e' letter is needed to enable and activate the output connector
 - parameter 'S' letter tells to use the low dotclock resolutions. As for now, resolutions are hardcoded, here is a list of them. Use the exact resolution name ('i' letter means interlaced and is part of the name)
 
+```
   - 15kHz modes:
     - "320x240"     /* 320x240 60.00 Hz */
     - "384x288"     /* 384x288 50.00 Hz */
@@ -63,6 +59,7 @@ You can specify interlace "640x480" or progressive "320x240" resolution at boot 
     - "1280x240"    /* 1280x240 60.00 Hz */
   - 31kHz modes:
     - "640x480"     /* 640x480 60.00 Hz */
+```
 
 E.g. for syslinux.cfg:
 
@@ -71,6 +68,7 @@ append root=/dev/sda1 rw vga=785 <...other parameters...> video=VGA-1:640x480ieS
 ```
 
 ### Before kernel 5.6
+
 You can specify "640x480" or "800x600" resolution at boot by adding either "video=VGA-1:640x480ec" or "video=VGA-1:800x600ez" to the kernel line.
 
 - "VGA-1" is the name of the video connector (see the kernel documentation or xrandr utility output for more info)
@@ -89,23 +87,33 @@ It is possible to set a custom EDID at boot via the drm module.
 (Note: starting from kernel 4.15 the drm_kms_helper.edid_firmware parameter has been deprecated in favor of the drm.edid_firmware parameter. Backward compatibility for drm_kms_helper.edid_firmware is still present in kernel 5.3)
 
 Put your edid custom file in the /lib/firmware/edid directory and add the following in your boot manager configuration on the kernel parameter line.
+
 ```
 append root=/dev/sda1 <...other parameters...> video=VGA-1:e drm.edid_firmware=VGA-1:edid/<edid_filename>
 ```
+
 The parameter video=VGA-1:e is needed to enable the connector. The drm.edid_firmware=VGA-1:edid/<edid_filename> parameter sets the custom EDID on the connector.  
-    
 
 NOTES:  
     On previous kernel use drm_kms_helper.edid_firmware instead of drm.edid_firmware.  
     If you are using early KMS with initramfs, the custom EDID file must be included or the kernel will not find it.  
     Using the custom EDID method, X server will start in the EDID defined configuration. No need to specify any modeline.  
 
+### Optional for the time being (staging folder, on-hold)
+
+- linux_15khz_scanoutpos.patch (enable scanline position reporting to user space, will be required to support future groovymame synchronisation library)
+
+### Deprecated since kernel 5.6
+
+- ati_9200_pllfix.patch (only required to support ATI 9200 card model)
+- arcadevga_3000.patch (only required to support ARCADEVGA 3000 card model)
+
 ## CONTRIBUTORS:
 
 - Substring, https://github.com/substring
+- Calamity, https://github.com/antonioginer
 
-## SOURCES:
+## SOURCES/HISTORY:
 
 1. MaKoTo, https://burogu.makotoworkshop.org/index.php?post/2012/12/26/borne-arcade-40
 2. Ansa89, https://github.com/Ansa89/linux-15khz-patch
-
