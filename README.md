@@ -8,14 +8,16 @@ The provided kernel patches enable the 15kHz video output with additional featur
 
 *Stable* release: **6.5.11**
 
-- 01_linux_15khz.patch (main patch for 15 kHz support)
-- 02_linux_15khz_interlaced_mode_fix.patch (necessary for radeon driver, fix the vertical blank interrupt)
-- 03_linux_15khz_dcn1_dcn2_interlaced_mode_fix.patch (necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU)
-- 04_linux_15khz_dce_interlaced_mode_fix.patch (necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU)
-- 05_linux_15khz_amdgpu_pll_fix.patch (necessary for amdgpu driver, fix PLL calculation)
-- 06_linux_switchres_kms_drm_modesetting.patch (introduce KMS modesetting manipulation for X-less switchres KMS usage, groovyarcade kms enabler)
+| Filename                                           | Description                                                                             |
+| -------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| 01_linux_15khz.patch                               | main patch for 15 kHz support                                                           |
+| 02_linux_15khz_interlaced_mode_fix.patch           | necessary for radeon driver, fix the vertical blank interrupt                           |
+| 03_linux_15khz_dcn1_dcn2_interlaced_mode_fix.patch | necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU |
+| 04_linux_15khz_dce_interlaced_mode_fix.patch       | necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU |
+| 05_linux_15khz_amdgpu_pll_fix.patch                | necessary for amdgpu driver, fix PLL calculation                                        |
+| 06_linux_switchres_kms_drm_modesetting.patch       | KMS modesetting manipulation for X-less switchres KMS usage, groovyarcade kms enabler   |
 
-## KERNEL COMPATIBILITY
+### KERNEL COMPATIBILITY
 
 For the latest stable release, please use the folder named `Linux-X.Y` from the root folder which is corresponding to your kernel version.
 The repository will now be updated to the mainline stable releases only. Older kernel released will be available inside the `unmaintained` folder.
