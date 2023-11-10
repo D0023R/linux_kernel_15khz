@@ -17,13 +17,13 @@ The provided kernel patches enable the 15kHz video output with additional featur
 
 ## KERNEL COMPATIBILITY
 
-For the latest stable release, please use the folder named linux-X.Y from the root folder and corresponding to your kernel version.
-The repository will now be updated to the mainline stable releases only. Older kernel released will be available in side the unmaintaned folder.
+For the latest stable release, please use the folder named `Linux-X.Y` from the root folder which is corresponding to your kernel version.
+The repository will now be updated to the mainline stable releases only. Older kernel released will be available inside the `unmaintained` folder.
 
 ## BUILD INSTRUCTIONS
 
 - Download and install the kernel source (https://kernel.org/)
-- Select the appropriate patch subfolder based on your kernel version
+- Select the appropriate patch sub-folder based on your kernel version
 - Apply the relevant patches to the kernel source
 - Compile and install the kernel
 
@@ -38,7 +38,7 @@ You can specify interlace "640x480" or progressive "320x240" resolution at boot 
 
 - "VGA-1" is the name of the video connector (see the kernel documentation or xrandr utility output for more info)
 - parameter 'e' letter is needed to enable and activate the output connector
-- parameter 'S' letter tells to use the low dotclock resolutions. As for now, resolutions are hardcoded, here is a list of them. Use the exact resolution name ('i' letter means interlaced and is part of the name)
+- parameter 'S' letter tells to use the low dotclock resolutions. As for now, resolutions are hard coded, here is a list of them. Use the exact resolution name ('i' letter means interlaced and is part of the name)
 
 ```
   - 15kHz modes:
