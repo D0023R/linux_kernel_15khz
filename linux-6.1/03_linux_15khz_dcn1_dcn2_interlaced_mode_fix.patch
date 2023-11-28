@@ -2,7 +2,7 @@ Index: linux-6.1/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 ===================================================================
 --- linux-6.1.orig/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ linux-6.1/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5437,6 +5437,8 @@ static void fill_stream_properties_from_
+@@ -5438,6 +5438,8 @@ static void fill_stream_properties_from_
  			timing_out->flags.HSYNC_POSITIVE_POLARITY = 1;
  		if (mode_in->flags & DRM_MODE_FLAG_PVSYNC)
  			timing_out->flags.VSYNC_POSITIVE_POLARITY = 1;
@@ -11,7 +11,7 @@ Index: linux-6.1/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  	}
  
  	if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-@@ -6008,7 +6010,7 @@ create_stream_for_sink(struct amdgpu_dm_
+@@ -6009,7 +6011,7 @@ create_stream_for_sink(struct amdgpu_dm_
  
  	if (recalculate_timing)
  		drm_mode_set_crtcinfo(&saved_mode, 0);
@@ -20,7 +20,7 @@ Index: linux-6.1/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  		drm_mode_set_crtcinfo(&mode, 0);
  
  	/*
-@@ -6459,8 +6461,7 @@ enum drm_mode_status amdgpu_dm_connector
+@@ -6460,8 +6462,7 @@ enum drm_mode_status amdgpu_dm_connector
  	struct dc_stream_state *stream;
  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
  
@@ -30,7 +30,7 @@ Index: linux-6.1/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  		return result;
  
  	/*
-@@ -7134,7 +7135,7 @@ void amdgpu_dm_connector_init_helper(str
+@@ -7135,7 +7136,7 @@ void amdgpu_dm_connector_init_helper(str
  
  	aconnector->connector_id = link_index;
  	aconnector->dc_link = link;
