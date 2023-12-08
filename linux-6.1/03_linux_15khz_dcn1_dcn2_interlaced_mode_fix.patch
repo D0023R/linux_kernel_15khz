@@ -20,7 +20,7 @@ Index: linux-6.1/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  		drm_mode_set_crtcinfo(&mode, 0);
  
  	/*
-@@ -6460,8 +6462,7 @@ enum drm_mode_status amdgpu_dm_connector
+@@ -6462,8 +6464,7 @@ enum drm_mode_status amdgpu_dm_connector
  	struct dc_stream_state *stream;
  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
  
@@ -30,7 +30,7 @@ Index: linux-6.1/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  		return result;
  
  	/*
-@@ -7135,7 +7136,7 @@ void amdgpu_dm_connector_init_helper(str
+@@ -7137,7 +7138,7 @@ void amdgpu_dm_connector_init_helper(str
  
  	aconnector->connector_id = link_index;
  	aconnector->dc_link = link;
