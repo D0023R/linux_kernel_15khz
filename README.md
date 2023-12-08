@@ -10,6 +10,8 @@ The provided kernel patches enable the 15kHz video output with additional featur
 
 *Longterm* release: **6.1.66**
 
+**Untested** *Next* release: **next-20231208**
+
 | Filename                                           | Description                                                                             |
 | -------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | 01_linux_15khz.patch                               | main patch for 15 kHz support                                                           |
