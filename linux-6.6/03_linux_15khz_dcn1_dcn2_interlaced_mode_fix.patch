@@ -2,7 +2,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 ===================================================================
 --- linux-6.6.orig/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ linux-6.6/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5520,6 +5520,8 @@ static void fill_stream_properties_from_
+@@ -5523,6 +5523,8 @@ static void fill_stream_properties_from_
  			timing_out->flags.HSYNC_POSITIVE_POLARITY = 1;
  		if (mode_in->flags & DRM_MODE_FLAG_PVSYNC)
  			timing_out->flags.VSYNC_POSITIVE_POLARITY = 1;
@@ -11,7 +11,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  	}
  
  	if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-@@ -6098,6 +6100,8 @@ create_stream_for_sink(struct amdgpu_dm_
+@@ -6101,6 +6103,8 @@ create_stream_for_sink(struct amdgpu_dm_
  
  	if (recalculate_timing)
  		drm_mode_set_crtcinfo(&saved_mode, 0);
@@ -20,7 +20,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  
  	/*
  	 * If scaling is enabled and refresh rate didn't change
-@@ -6641,8 +6645,7 @@ enum drm_mode_status amdgpu_dm_connector
+@@ -6644,8 +6648,7 @@ enum drm_mode_status amdgpu_dm_connector
  	struct dc_stream_state *stream;
  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
  
@@ -30,7 +30,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  		return result;
  
  	/*
-@@ -7339,7 +7342,7 @@ void amdgpu_dm_connector_init_helper(str
+@@ -7342,7 +7345,7 @@ void amdgpu_dm_connector_init_helper(str
  	aconnector->connector_id = link_index;
  	aconnector->bl_idx = -1;
  	aconnector->dc_link = link;
@@ -53,7 +53,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
  	pipe_ctx->plane_res.dpp->funcs->dpp_set_scaler(
  			pipe_ctx->plane_res.dpp, &pipe_ctx->plane_res.scl_data);
  }
-@@ -3707,8 +3710,7 @@ int dcn10_get_vupdate_offset_from_vsync(
+@@ -3708,8 +3711,7 @@ int dcn10_get_vupdate_offset_from_vsync(
  
  	asic_blank_end = (patched_crtc_timing.v_total -
  			vesa_sync_start -
