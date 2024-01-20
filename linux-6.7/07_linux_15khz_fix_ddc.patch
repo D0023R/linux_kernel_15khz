@@ -7,7 +7,7 @@ Index: linux-6.7/drivers/gpu/drm/drm_edid.c
  		 * DDC monitors.
  		 */
 -		ret = i2c_transfer(adapter, &msgs[3 - xfers], xfers);
-+		if (!adapter) {
++		if (!adapter)
 +			ret = -ENXIO;
 +		else
 +			ret = i2c_transfer(adapter, &msgs[3 - xfers], xfers);
