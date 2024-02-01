@@ -6,13 +6,13 @@ The provided kernel patches enable the 15kHz video output with additional featur
 
 **Current:** 
 
-- *Mainline* release: **6.7.2**
-- *Stable* release: **6.6.14**
-- *Longterm* release: **6.1.75**
+- *Mainline* release: **6.7.3**
+- *Stable* release: **6.6.15**
+- *Longterm* release: **6.1.76**
 
 **Untested experimental:** 
 
-- *Mainline* release: **6.8-rc1**
+- *Mainline* release: **6.8-rc2**
 
 | Filename                                           | Description                                                                             |
 | -------------------------------------------------- | --------------------------------------------------------------------------------------- |
@@ -22,7 +22,7 @@ The provided kernel patches enable the 15kHz video output with additional featur
 | 04_linux_15khz_dce_interlaced_mode_fix.patch       | necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU |
 | 05_linux_15khz_amdgpu_pll_fix.patch                | necessary for amdgpu driver, fix PLL calculation                                        |
 | 06_linux_switchres_kms_drm_modesetting.patch       | KMS modesetting manipulation for X-less switchres KMS usage, groovyarcade kms enabler   |
-| 07_linux_15khz_fix_ddc.patch                       | kernel 6.7 only, fix kernel oops when probing DDC and no adapter is connected           |
+| 07_linux_15khz_fix_ddc.patch                       | kernel 6.7+ only, fix kernel oops when probing DDC and no adapter is connected           |
 
 ### KERNEL COMPATIBILITY
 
