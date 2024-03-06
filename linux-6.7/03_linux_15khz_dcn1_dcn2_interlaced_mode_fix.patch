@@ -20,7 +20,7 @@ Index: linux-6.7/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  
  	/*
  	 * If scaling is enabled and refresh rate didn't change
-@@ -6682,8 +6686,7 @@ enum drm_mode_status amdgpu_dm_connector
+@@ -6693,8 +6697,7 @@ enum drm_mode_status amdgpu_dm_connector
  	struct dc_stream_state *stream;
  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
  
@@ -30,7 +30,7 @@ Index: linux-6.7/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  		return result;
  
  	/*
-@@ -7387,7 +7390,7 @@ void amdgpu_dm_connector_init_helper(str
+@@ -7398,7 +7401,7 @@ void amdgpu_dm_connector_init_helper(str
  	aconnector->connector_id = link_index;
  	aconnector->bl_idx = -1;
  	aconnector->dc_link = link;
