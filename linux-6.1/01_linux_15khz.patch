@@ -239,7 +239,7 @@ Index: linux-6.1/drivers/gpu/drm/drm_probe_helper.c
 ===================================================================
 --- linux-6.1.orig/drivers/gpu/drm/drm_probe_helper.c
 +++ linux-6.1/drivers/gpu/drm/drm_probe_helper.c
-@@ -391,21 +391,26 @@ static int __drm_helper_update_and_valid
+@@ -398,21 +398,26 @@ static int __drm_helper_update_and_valid
  		mode_flags |= DRM_MODE_FLAG_3D_MASK;
  
  	list_for_each_entry(mode, &connector->modes, head) {
@@ -266,7 +266,7 @@ Index: linux-6.1/drivers/gpu/drm/drm_probe_helper.c
  		ret = drm_mode_validate_pipeline(mode, connector, ctx,
  						 &mode->status);
  		if (ret) {
-@@ -419,9 +424,11 @@ static int __drm_helper_update_and_valid
+@@ -426,9 +431,11 @@ static int __drm_helper_update_and_valid
  				return -EDEADLK;
  		}
  
@@ -278,7 +278,7 @@ Index: linux-6.1/drivers/gpu/drm/drm_probe_helper.c
  	}
  
  	return 0;
-@@ -491,6 +498,7 @@ int drm_helper_probe_single_connector_mo
+@@ -498,6 +505,7 @@ int drm_helper_probe_single_connector_mo
  {
  	struct drm_device *dev = connector->dev;
  	struct drm_display_mode *mode;
@@ -286,7 +286,7 @@ Index: linux-6.1/drivers/gpu/drm/drm_probe_helper.c
  	int count = 0, ret;
  	enum drm_connector_status old_status;
  	struct drm_modeset_acquire_ctx ctx;
-@@ -576,10 +584,13 @@ retry:
+@@ -583,10 +591,13 @@ retry:
  		goto exit;
  	}
  
