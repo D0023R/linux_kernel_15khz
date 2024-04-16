@@ -284,7 +284,7 @@ Index: linux-6.6/drivers/gpu/drm/drm_probe_helper.c
 ===================================================================
 --- linux-6.6.orig/drivers/gpu/drm/drm_probe_helper.c
 +++ linux-6.6/drivers/gpu/drm/drm_probe_helper.c
-@@ -374,6 +374,23 @@ retry:
+@@ -377,6 +377,23 @@ retry:
  	return ret;
  }
  
@@ -308,7 +308,7 @@ Index: linux-6.6/drivers/gpu/drm/drm_probe_helper.c
  /**
   * drm_helper_probe_detect - probe connector status
   * @connector: connector to probe
-@@ -574,6 +591,8 @@ int drm_helper_probe_single_connector_mo
+@@ -577,6 +594,8 @@ int drm_helper_probe_single_connector_mo
  
  	drm_modeset_acquire_init(&ctx, 0);
  
@@ -317,7 +317,7 @@ Index: linux-6.6/drivers/gpu/drm/drm_probe_helper.c
  	DRM_DEBUG_KMS("[CONNECTOR:%d:%s]\n", connector->base.id,
  			connector->name);
  
-@@ -591,6 +610,10 @@ retry:
+@@ -594,6 +613,10 @@ retry:
  
  	old_status = connector->status;
  
@@ -328,7 +328,7 @@ Index: linux-6.6/drivers/gpu/drm/drm_probe_helper.c
  	if (connector->force) {
  		if (connector->force == DRM_FORCE_ON ||
  		    connector->force == DRM_FORCE_ON_DIGITAL)
-@@ -703,7 +726,13 @@ exit:
+@@ -710,7 +733,13 @@ exit:
  
  	drm_mode_sort(&connector->modes);
  
