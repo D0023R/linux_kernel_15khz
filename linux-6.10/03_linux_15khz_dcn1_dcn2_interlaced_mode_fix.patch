@@ -53,7 +53,7 @@ Index: linux-6.10/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
  	pipe_ctx->plane_res.dpp->funcs->dpp_set_scaler(
  			pipe_ctx->plane_res.dpp, &pipe_ctx->plane_res.scl_data);
  }
-@@ -3796,8 +3799,7 @@ int dcn10_get_vupdate_offset_from_vsync(
+@@ -3800,8 +3803,7 @@ int dcn10_get_vupdate_offset_from_vsync(
  
  	asic_blank_end = (patched_crtc_timing.v_total -
  			vesa_sync_start -
