@@ -377,3 +377,32 @@ Index: linux-6.1/include/drm/drm_modes.h
  void drm_mode_debug_printmodeline(const struct drm_display_mode *mode);
  bool drm_mode_is_420_only(const struct drm_display_info *display,
  			  const struct drm_display_mode *mode);
+@@ -468,6 +472,14 @@ bool drm_mode_is_420_also(const struct d
+ bool drm_mode_is_420(const struct drm_display_info *display,
+ 		     const struct drm_display_mode *mode);
+ 
++void drm_mode_attachmode(struct drm_device *dev,
++				      struct drm_connector *connector,
++				      struct drm_display_mode *mode);
++
++int drm_mode_detachmode(struct drm_device *dev,
++				      struct drm_connector *connector,
++				      struct drm_display_mode *mode);
++
+ struct drm_display_mode *drm_cvt_mode(struct drm_device *dev,
+ 				      int hdisplay, int vdisplay, int vrefresh,
+ 				      bool reduced, bool interlaced,
+Index: linux-6.1/include/drm/drm_probe_helper.h
+===================================================================
+--- linux-6.1.orig/include/drm/drm_probe_helper.h
++++ linux-6.1/include/drm/drm_probe_helper.h
+@@ -13,6 +13,9 @@ struct drm_modeset_acquire_ctx;
+ int drm_helper_probe_single_connector_modes(struct drm_connector
+ 					    *connector, uint32_t maxX,
+ 					    uint32_t maxY);
++void drm_mode_validate_user_mode(struct drm_device *dev,
++			    struct drm_connector *connector,
++			    struct drm_display_mode *mode);
+ int drm_helper_probe_detect(struct drm_connector *connector,
+ 			    struct drm_modeset_acquire_ctx *ctx,
+ 			    bool force);
