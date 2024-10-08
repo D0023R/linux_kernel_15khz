@@ -1,7 +1,7 @@
-Index: linux-next/drivers/gpu/drm/drm_modes.c
+Index: linux-6.12-rc2/drivers/gpu/drm/drm_modes.c
 ===================================================================
---- linux-next.orig/drivers/gpu/drm/drm_modes.c
-+++ linux-next/drivers/gpu/drm/drm_modes.c
+--- linux-6.12-rc2.orig/drivers/gpu/drm/drm_modes.c
++++ linux-6.12-rc2/drivers/gpu/drm/drm_modes.c
 @@ -48,6 +48,7 @@
  #include <drm/drm_print.h>
  
@@ -53,11 +53,11 @@ Index: linux-next/drivers/gpu/drm/drm_modes.c
  		mode = drm_cvt_mode(dev,
  				    cmd->xres, cmd->yres,
  				    cmd->refresh_specified ? cmd->refresh : 60,
-Index: linux-next/drivers/gpu/drm/drm_modes_low_dotclock.c
+Index: linux-6.12-rc2/drivers/gpu/drm/drm_modes_low_dotclock.c
 ===================================================================
 --- /dev/null
-+++ linux-next/drivers/gpu/drm/drm_modes_low_dotclock.c
-@@ -0,0 +1,155 @@
++++ linux-6.12-rc2/drivers/gpu/drm/drm_modes_low_dotclock.c
+@@ -0,0 +1,156 @@
 +/*
 + * Permission is hereby granted, free of charge, to any person obtaining a
 + * copy of this software and associated documentation files (the "Software"),
@@ -81,8 +81,9 @@ Index: linux-next/drivers/gpu/drm/drm_modes_low_dotclock.c
 +
 +#include <drm/drm_modes.h>
 +#include <drm/drm_print.h>
++#include "drm_modes_low_dotclock.h"
 +
-+const static struct drm_display_mode drm_low_dotclock_modes[] = {
++static struct drm_display_mode drm_low_dotclock_modes[] = {
 +/* 15 kHz modes */
 +	/* 320x240 60.00 - generic_15 */
 +		/* Switchres: Modeline "320x240_60 15.660000KHz 60.000000Hz" 6.514560 320 333 364 416 240 241 244 261 -hsync -vsync */
@@ -213,10 +214,10 @@ Index: linux-next/drivers/gpu/drm/drm_modes_low_dotclock.c
 +	return NULL;
 +}
 +EXPORT_SYMBOL(drm_mode_low_dotclock_res);
-Index: linux-next/drivers/gpu/drm/drm_modes_low_dotclock.h
+Index: linux-6.12-rc2/drivers/gpu/drm/drm_modes_low_dotclock.h
 ===================================================================
 --- /dev/null
-+++ linux-next/drivers/gpu/drm/drm_modes_low_dotclock.h
++++ linux-6.12-rc2/drivers/gpu/drm/drm_modes_low_dotclock.h
 @@ -0,0 +1,23 @@
 +/*
 + * Permission is hereby granted, free of charge, to any person obtaining a
@@ -241,50 +242,51 @@ Index: linux-next/drivers/gpu/drm/drm_modes_low_dotclock.h
 +
 +struct drm_display_mode *drm_mode_low_dotclock_res(struct drm_device *dev,
 +				int hsize, int vsize, bool interlace);
-Index: linux-next/drivers/gpu/drm/drm_probe_helper.c
+Index: linux-6.12-rc2/drivers/gpu/drm/drm_probe_helper.c
 ===================================================================
---- linux-next.orig/drivers/gpu/drm/drm_probe_helper.c
-+++ linux-next/drivers/gpu/drm/drm_probe_helper.c
-@@ -448,21 +448,26 @@ static int __drm_helper_update_and_valid
+--- linux-6.12-rc2.orig/drivers/gpu/drm/drm_probe_helper.c
++++ linux-6.12-rc2/drivers/gpu/drm/drm_probe_helper.c
+@@ -459,25 +459,31 @@ static int __drm_helper_update_and_valid
  		mode_flags |= DRM_MODE_FLAG_3D_MASK;
  
  	list_for_each_entry(mode, &connector->modes, head) {
-+		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] starting with mode state : %d\n", connector->base.id, connector->name, mode->status);
++                DRM_DEBUG_KMS("[CONNECTOR:%d:%s] starting with mode state : %d\n", connector->base.id, connector->name, mode->status);
  		if (mode->status != MODE_OK)
  			continue;
  
-+		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_driver mode is : %d\n", connector->base.id, connector->name, mode->status);
++                DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_driver mode is : %d\n", connector->base.id, connector->name, mode->status);
  		mode->status = drm_mode_validate_driver(dev, mode);
  		if (mode->status != MODE_OK)
  			continue;
  
-+		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_size mode is : %d\n", connector->base.id, connector->name, mode->status);
++                DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_size mode is : %d\n", connector->base.id, connector->name, mode->status);
  		mode->status = drm_mode_validate_size(mode, maxX, maxY);
  		if (mode->status != MODE_OK)
  			continue;
  
-+		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_flag mode is : %d\n", connector->base.id, connector->name, mode->status);
++                DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_flag mode is : %d\n", connector->base.id, connector->name, mode->status);
  		mode->status = drm_mode_validate_flag(mode, mode_flags);
  		if (mode->status != MODE_OK)
  			continue;
  
-+		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_pipeline mode is : %d\n", connector->base.id, connector->name, mode->status);
++                DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_ycbcr420 mode is : %d\n", connector->base.id, connector->name, mode->status);
+ 		mode->status = drm_mode_validate_ycbcr420(mode, connector);
+ 		if (mode->status != MODE_OK)
+ 			continue;
+ 
++                DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_pipeline mode is : %d\n", connector->base.id, connector->name, mode->status);
  		ret = drm_mode_validate_pipeline(mode, connector, ctx,
  						 &mode->status);
  		if (ret) {
-@@ -476,9 +481,11 @@ static int __drm_helper_update_and_valid
+@@ -490,6 +496,7 @@ static int __drm_helper_update_and_valid
+ 			else
  				return -EDEADLK;
  		}
- 
-+		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] before drm_mode_validate_ycbcr420 mode is : %d\n", connector->base.id, connector->name, mode->status);
- 		if (mode->status != MODE_OK)
- 			continue;
- 		mode->status = drm_mode_validate_ycbcr420(mode, connector);
-+		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] in the end mode is : %d\n", connector->base.id, connector->name, mode->status);
++                DRM_DEBUG_KMS("[CONNECTOR:%d:%s] in the end mode is : %d\n", connector->base.id, connector->name, mode->status);
  	}
  
  	return 0;
-@@ -548,6 +555,7 @@ int drm_helper_probe_single_connector_mo
+@@ -559,6 +566,7 @@ int drm_helper_probe_single_connector_mo
  {
  	struct drm_device *dev = connector->dev;
  	struct drm_display_mode *mode;
@@ -292,7 +294,7 @@ Index: linux-next/drivers/gpu/drm/drm_probe_helper.c
  	int count = 0, ret;
  	enum drm_connector_status old_status;
  	struct drm_modeset_acquire_ctx ctx;
-@@ -630,10 +638,13 @@ retry:
+@@ -644,10 +652,13 @@ retry:
  		goto exit;
  	}
  
@@ -307,11 +309,11 @@ Index: linux-next/drivers/gpu/drm/drm_probe_helper.c
  		count = drm_add_modes_noedid(connector, 1024, 768);
  
  		/*
-Index: linux-next/include/drm/drm_connector.h
+Index: linux-6.12-rc2/include/drm/drm_connector.h
 ===================================================================
---- linux-next.orig/include/drm/drm_connector.h
-+++ linux-next/include/drm/drm_connector.h
-@@ -1434,6 +1434,13 @@ struct drm_cmdline_mode {
+--- linux-6.12-rc2.orig/include/drm/drm_connector.h
++++ linux-6.12-rc2/include/drm/drm_connector.h
+@@ -1601,6 +1601,13 @@ struct drm_cmdline_mode {
  	bool interlace;
  
  	/**
@@ -325,11 +327,11 @@ Index: linux-next/include/drm/drm_connector.h
  	 * @cvt:
  	 *
  	 * The timings will be calculated using the VESA Coordinated
-Index: linux-next/drivers/gpu/drm/Makefile
+Index: linux-6.12-rc2/drivers/gpu/drm/Makefile
 ===================================================================
---- linux-next.orig/drivers/gpu/drm/Makefile
-+++ linux-next/drivers/gpu/drm/Makefile
-@@ -31,6 +31,7 @@ drm-y := \
+--- linux-6.12-rc2.orig/drivers/gpu/drm/Makefile
++++ linux-6.12-rc2/drivers/gpu/drm/Makefile
+@@ -59,6 +59,7 @@ drm-y := \
  	drm_ioctl.o \
  	drm_lease.o \
  	drm_managed.o \
