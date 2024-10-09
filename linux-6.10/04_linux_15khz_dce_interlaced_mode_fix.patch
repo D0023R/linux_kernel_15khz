@@ -2,7 +2,7 @@ Index: linux-6.10/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
 ===================================================================
 --- linux-6.10.orig/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
 +++ linux-6.10/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-@@ -2846,6 +2846,9 @@ static void dce110_program_front_end_for
+@@ -2853,6 +2853,9 @@ static void dce110_program_front_end_for
  
  	pipe_ctx->plane_res.scl_data.lb_params.alpha_en = pipe_ctx->bottom_pipe != NULL;
  
