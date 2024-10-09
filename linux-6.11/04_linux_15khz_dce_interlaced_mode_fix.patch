@@ -59,7 +59,7 @@ Index: linux-6.11/drivers/gpu/drm/amd/display/dc/dce110/dce110_timing_generator.
 +	value = (value & interleave_en_mask) | ((timing->flags.INTERLACE == 1? 1 : 0) << 3);
 +	dm_write_reg(tg->ctx, address, value);
 +
-+	DRM_DEBUG_KMS("Calamity: addr[%08x] value[%08x]\n", address, value);
++	DRM_DEBUG_KMS("linux_15khz: addr[%08x] value[%08x]\n", address, value);
 +}
 +
  bool dce110_tg_is_blanked(struct timing_generator *tg)
@@ -101,7 +101,7 @@ Index: linux-6.11/drivers/gpu/drm/amd/display/dc/dce120/dce120_timing_generator.
 +	value = (value & interleave_en_mask) | ((timing->flags.INTERLACE == 1? 1 : 0) << 3);
 +	dm_write_reg_soc15(tg->ctx, mmLB0_LB_DATA_FORMAT, tg110->offsets.crtc, value);
 +
-+	DRM_DEBUG_KMS("Calamity: addr[%08x] value[%08x]\n",  mmLB0_LB_DATA_FORMAT + tg110->offsets.crtc, value);
++	DRM_DEBUG_KMS("linux_15khz: addr[%08x] value[%08x]\n",  mmLB0_LB_DATA_FORMAT + tg110->offsets.crtc, value);
  }
  
  static bool dce120_tg_is_blanked(struct timing_generator *tg)
@@ -138,7 +138,7 @@ Index: linux-6.11/drivers/gpu/drm/amd/display/dc/dce60/dce60_timing_generator.c
 +	value = (value & interleave_en_mask) | (timing->flags.INTERLACE == 1? 1 : 0);
 +	dm_write_reg(tg->ctx, address, value);
 +
-+	DRM_DEBUG_KMS("Calamity: addr[%08x] value[%08x]\n", address, value);
++	DRM_DEBUG_KMS("linux_15khz: addr[%08x] value[%08x]\n", address, value);
  }
  
  static void dce60_timing_generator_enable_advanced_request(
@@ -151,7 +151,7 @@ Index: linux-6.11/drivers/gpu/drm/amd/display/dc/basics/dce_calcs.c
  			break;
  		}
 -		data->interlace_mode[num_displays + 4] = false;
-+		DRM_DEBUG_KMS("Calamity: pipe[%d] interlace: [%d]\n", i, pipe[i].stream->timing.flags.INTERLACE);
++		DRM_DEBUG_KMS("linux_15khz: pipe[%d] interlace: [%d]\n", i, pipe[i].stream->timing.flags.INTERLACE);
 +		data->interlace_mode[num_displays + 4] = pipe[i].stream->timing.flags.INTERLACE;
  		data->stereo_mode[num_displays + 4] = bw_def_mono;
  
@@ -161,7 +161,7 @@ Index: linux-6.11/drivers/gpu/drm/amd/display/dc/basics/dce_calcs.c
  		}
  
 -		data->interlace_mode[num_displays + 4] = false;
-+		DRM_DEBUG_KMS("Calamity: pipe[%d] interlace: [%d]\n", i, pipe[i].stream->timing.flags.INTERLACE);
++		DRM_DEBUG_KMS("linux_15khz: pipe[%d] interlace: [%d]\n", i, pipe[i].stream->timing.flags.INTERLACE);
 +		data->interlace_mode[num_displays + 4] = pipe[i].stream->timing.flags.INTERLACE;
  		data->stereo_mode[num_displays + 4] = bw_def_mono;
  		num_displays++;
