@@ -13,7 +13,7 @@ The provided kernel patches enable the 15kHz video output with additional featur
 
 **Untested experimental:** 
 
-- *Next* release: **6.12-rc3**
+- *Next* release: **6.12-rc5**
 
 | Filename                                           | Description                                                                             |
 | -------------------------------------------------- | --------------------------------------------------------------------------------------- |
