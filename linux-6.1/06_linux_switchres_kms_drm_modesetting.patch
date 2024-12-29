@@ -230,7 +230,7 @@ Index: linux-6.1/drivers/gpu/drm/drm_modes.c
   * drm_cvt_mode -create a modeline based on the CVT algorithm
   * @dev: drm device
   * @hdisplay: hdisplay size
-@@ -1408,7 +1571,7 @@ EXPORT_SYMBOL(drm_mode_sort);
+@@ -1411,7 +1574,7 @@ EXPORT_SYMBOL(drm_mode_sort);
   */
  void drm_connector_list_update(struct drm_connector *connector)
  {
@@ -239,7 +239,7 @@ Index: linux-6.1/drivers/gpu/drm/drm_modes.c
  
  	WARN_ON(!mutex_is_locked(&connector->dev->mode_config.mutex));
  
-@@ -1454,6 +1617,40 @@ void drm_connector_list_update(struct dr
+@@ -1457,6 +1620,40 @@ void drm_connector_list_update(struct dr
  			list_move_tail(&pmode->head, &connector->modes);
  		}
  	}
