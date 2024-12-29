@@ -10,7 +10,7 @@ Index: linux-6.6/drivers/gpu/drm/drm_modes.c
  
  /**
   * drm_mode_debug_printmodeline - print a mode to dmesg
-@@ -2028,7 +2029,7 @@ static int drm_mode_parse_cmdline_res_mo
+@@ -2031,7 +2032,7 @@ static int drm_mode_parse_cmdline_res_mo
  					   struct drm_cmdline_mode *mode)
  {
  	const char *str_start = str;
@@ -19,7 +19,7 @@ Index: linux-6.6/drivers/gpu/drm/drm_modes.c
  	int xres = 0, yres = 0;
  	int remaining, i;
  	char *end_ptr;
-@@ -2058,6 +2059,12 @@ static int drm_mode_parse_cmdline_res_mo
+@@ -2061,6 +2062,12 @@ static int drm_mode_parse_cmdline_res_mo
  		case 'R':
  			rb = true;
  			break;
@@ -32,7 +32,7 @@ Index: linux-6.6/drivers/gpu/drm/drm_modes.c
  		default:
  			/*
  			 * Try to pass that to our extras parsing
-@@ -2082,6 +2089,7 @@ static int drm_mode_parse_cmdline_res_mo
+@@ -2085,6 +2092,7 @@ static int drm_mode_parse_cmdline_res_mo
  	mode->yres = yres;
  	mode->cvt = cvt;
  	mode->rb = rb;
@@ -40,7 +40,7 @@ Index: linux-6.6/drivers/gpu/drm/drm_modes.c
  
  	return 0;
  }
-@@ -2545,7 +2553,11 @@ drm_mode_create_from_cmdline_mode(struct
+@@ -2548,7 +2556,11 @@ drm_mode_create_from_cmdline_mode(struct
  
  	if (strlen(cmd->name))
  		mode = drm_named_mode(dev, cmd);

@@ -97,7 +97,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
 ===================================================================
 --- linux-6.6.orig/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
 +++ linux-6.6/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
-@@ -1572,6 +1572,9 @@ static void dcn20_update_dchubp_dpp(
+@@ -1573,6 +1573,9 @@ static void dcn20_update_dchubp_dpp(
  		pipe_ctx->plane_res.scl_data.lb_params.alpha_en = pipe_ctx->plane_state->per_pixel_alpha;
  		ASSERT(pipe_ctx->plane_res.scl_data.lb_params.depth == LB_PIXEL_DEPTH_36BPP);
  		/* scaler configuration */
