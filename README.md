@@ -6,7 +6,7 @@ The provided kernel patches enable the 15kHz video output with additional featur
 
 **Current:** 
 
-- *Stable* release: **6.12.7**
+- *Stable* release: **6.12.8**
 - *EOL* release: **6.11.11**
 - *Longterm* release: **6.6.68**
 - *Longterm* release: **6.1.122**
@@ -15,7 +15,17 @@ The provided kernel patches enable the 15kHz video output with additional featur
 
 - *Next* release: **6.13-rc5**
 
-| Filename                                           | Description                                                                             |
+| File set for kernel 6.12 and later                      | Description                                                                             |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| 01_linux_15khz.patch                                    | main patch for 15 kHz support                                                           |
+| 02_linux_15khz_interlaced_mode_fix.patch                | necessary for radeon driver, fix the vertical blank interrupt                           |
+| 03_linux_15khz_dcn1_dcn2_dcn3_interlaced_mode_fix.patch | necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU |
+| 04_linux_15khz_dce_interlaced_mode_fix.patch            | necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU |
+| 05_linux_15khz_amdgpu_pll_fix.patch                     | necessary for amdgpu driver, fix PLL calculation                                        |
+| 06_linux_switchres_kms_drm_modesetting.patch            | KMS modesetting manipulation for X-less switchres KMS usage, groovyarcade kms enabler   |
+| 07_linux_15khz_fix_ddc.patch                            | kernel 6.7+ only, fix kernel oops when probing DDC and no adapter is connected           |
+
+| File set for kernel 6.11 and previous versions     | Description                                                                             |
 | -------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | 01_linux_15khz.patch                               | main patch for 15 kHz support                                                           |
 | 02_linux_15khz_interlaced_mode_fix.patch           | necessary for radeon driver, fix the vertical blank interrupt                           |

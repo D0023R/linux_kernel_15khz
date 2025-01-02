@@ -135,3 +135,99 @@ Index: linux-next/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
  		}
  		mode_lib->vba.htaps[mode_lib->vba.NumberOfActivePlanes] = taps->htaps;
  		mode_lib->vba.vtaps[mode_lib->vba.NumberOfActivePlanes] = taps->vtaps;
+Index: linux-next/drivers/gpu/drm/amd/display/dc/optc/dcn30/dcn30_optc.h
+===================================================================
+--- linux-next.orig/drivers/gpu/drm/amd/display/dc/optc/dcn30/dcn30_optc.h
++++ linux-next/drivers/gpu/drm/amd/display/dc/optc/dcn30/dcn30_optc.h
+@@ -49,6 +49,7 @@
+ 	SRI(OTG_V_BLANK_START_END, OTG, inst),\
+ 	SRI(OTG_V_SYNC_A, OTG, inst),\
+ 	SRI(OTG_V_SYNC_A_CNTL, OTG, inst),\
++	SRI(OTG_INTERLACE_CONTROL, OTG, inst),\
+ 	SRI(OTG_CONTROL, OTG, inst),\
+ 	SRI(OTG_STEREO_CONTROL, OTG, inst),\
+ 	SRI(OTG_3D_STRUCTURE_CONTROL, OTG, inst),\
+@@ -143,6 +144,7 @@
+ 	SF(OTG0_OTG_V_SYNC_A, OTG_V_SYNC_A_END, mask_sh),\
+ 	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_A_POL, mask_sh),\
+ 	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_MODE, mask_sh),\
++	SF(OTG0_OTG_INTERLACE_CONTROL, OTG_INTERLACE_ENABLE, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_MASTER_EN, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_START_POINT_CNTL, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_DISABLE_POINT_CNTL, mask_sh),\
+Index: linux-next/drivers/gpu/drm/amd/display/dc/optc/dcn31/dcn31_optc.h
+===================================================================
+--- linux-next.orig/drivers/gpu/drm/amd/display/dc/optc/dcn31/dcn31_optc.h
++++ linux-next/drivers/gpu/drm/amd/display/dc/optc/dcn31/dcn31_optc.h
+@@ -47,6 +47,7 @@
+ 	SRI(OTG_V_BLANK_START_END, OTG, inst),\
+ 	SRI(OTG_V_SYNC_A, OTG, inst),\
+ 	SRI(OTG_V_SYNC_A_CNTL, OTG, inst),\
++	SRI(OTG_INTERLACE_CONTROL, OTG, inst),\
+ 	SRI(OTG_CONTROL, OTG, inst),\
+ 	SRI(OTG_STEREO_CONTROL, OTG, inst),\
+ 	SRI(OTG_3D_STRUCTURE_CONTROL, OTG, inst),\
+@@ -131,6 +132,7 @@
+ 	SF(OTG0_OTG_V_SYNC_A, OTG_V_SYNC_A_END, mask_sh),\
+ 	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_A_POL, mask_sh),\
+ 	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_MODE, mask_sh),\
++	SF(OTG0_OTG_INTERLACE_CONTROL, OTG_INTERLACE_ENABLE, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_MASTER_EN, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_START_POINT_CNTL, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_DISABLE_POINT_CNTL, mask_sh),\
+Index: linux-next/drivers/gpu/drm/amd/display/dc/optc/dcn314/dcn314_optc.h
+===================================================================
+--- linux-next.orig/drivers/gpu/drm/amd/display/dc/optc/dcn314/dcn314_optc.h
++++ linux-next/drivers/gpu/drm/amd/display/dc/optc/dcn314/dcn314_optc.h
+@@ -48,6 +48,7 @@
+ 	SRI(OTG_V_BLANK_START_END, OTG, inst),\
+ 	SRI(OTG_V_SYNC_A, OTG, inst),\
+ 	SRI(OTG_V_SYNC_A_CNTL, OTG, inst),\
++	SRI(OTG_INTERLACE_CONTROL, OTG, inst),\
+ 	SRI(OTG_CONTROL, OTG, inst),\
+ 	SRI(OTG_STEREO_CONTROL, OTG, inst),\
+ 	SRI(OTG_3D_STRUCTURE_CONTROL, OTG, inst),\
+@@ -130,6 +131,7 @@
+ 	SF(OTG0_OTG_V_SYNC_A, OTG_V_SYNC_A_END, mask_sh),\
+ 	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_A_POL, mask_sh),\
+ 	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_MODE, mask_sh),\
++	SF(OTG0_OTG_INTERLACE_CONTROL, OTG_INTERLACE_ENABLE, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_MASTER_EN, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_START_POINT_CNTL, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_DISABLE_POINT_CNTL, mask_sh),\
+Index: linux-next/drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.h
+===================================================================
+--- linux-next.orig/drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.h
++++ linux-next/drivers/gpu/drm/amd/display/dc/optc/dcn32/dcn32_optc.h
+@@ -57,6 +57,7 @@
+ 	SF(OTG0_OTG_V_SYNC_A, OTG_V_SYNC_A_END, mask_sh),\
+ 	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_A_POL, mask_sh),\
+ 	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_MODE, mask_sh),\
++	SF(OTG0_OTG_INTERLACE_CONTROL, OTG_INTERLACE_ENABLE, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_MASTER_EN, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_START_POINT_CNTL, mask_sh),\
+ 	SF(OTG0_OTG_CONTROL, OTG_DISABLE_POINT_CNTL, mask_sh),\
+Index: linux-next/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
+===================================================================
+--- linux-next.orig/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
++++ linux-next/drivers/gpu/drm/amd/display/dc/resource/dcn32/dcn32_resource.h
+@@ -1008,6 +1008,7 @@ unsigned int dcn32_calculate_mall_ways_f
+       SRI_ARR(OTG_H_TIMING_CNTL, OTG, inst), SRI_ARR(OTG_V_TOTAL, OTG, inst),  \
+       SRI_ARR(OTG_V_BLANK_START_END, OTG, inst),                               \
+       SRI_ARR(OTG_V_SYNC_A, OTG, inst), SRI_ARR(OTG_V_SYNC_A_CNTL, OTG, inst), \
++      SRI_ARR(OTG_INTERLACE_CONTROL, OTG, inst),                               \
+       SRI_ARR(OTG_CONTROL, OTG, inst), SRI_ARR(OTG_STEREO_CONTROL, OTG, inst), \
+       SRI_ARR(OTG_3D_STRUCTURE_CONTROL, OTG, inst),                            \
+       SRI_ARR(OTG_STEREO_STATUS, OTG, inst),                                   \
+Index: linux-next/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.h
+===================================================================
+--- linux-next.orig/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.h
++++ linux-next/drivers/gpu/drm/amd/display/dc/resource/dcn35/dcn35_resource.h
+@@ -233,6 +233,7 @@ struct resource_pool *dcn35_create_resou
+ 	SRI_ARR(OTG_V_BLANK_START_END, OTG, inst),\
+ 	SRI_ARR(OTG_V_SYNC_A, OTG, inst),\
+ 	SRI_ARR(OTG_V_SYNC_A_CNTL, OTG, inst),\
++	SRI_ARR(OTG_INTERLACE_CONTROL, OTG, inst),\
+ 	SRI_ARR(OTG_CONTROL, OTG, inst),\
+ 	SRI_ARR(OTG_STEREO_CONTROL, OTG, inst),\
+ 	SRI_ARR(OTG_3D_STRUCTURE_CONTROL, OTG, inst),\
