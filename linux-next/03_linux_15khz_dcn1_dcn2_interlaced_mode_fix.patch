@@ -53,31 +53,6 @@ Index: linux-next/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
  	pipe_ctx->plane_res.dpp->funcs->dpp_set_scaler(
  			pipe_ctx->plane_res.dpp, &pipe_ctx->plane_res.scl_data);
  }
-@@ -3775,12 +3778,12 @@ int dcn10_get_vupdate_offset_from_vsync(
- 	struct dc_crtc_timing patched_crtc_timing;
- 	int vesa_sync_start;
- 	int asic_blank_end;
--	int interlace_factor;
-+	// int interlace_factor;
- 
- 	patched_crtc_timing = *dc_crtc_timing;
- 	apply_front_porch_workaround(&patched_crtc_timing);
- 
--	interlace_factor = patched_crtc_timing.flags.INTERLACE ? 2 : 1;
-+	// interlace_factor = patched_crtc_timing.flags.INTERLACE ? 2 : 1;
- 
- 	vesa_sync_start = patched_crtc_timing.v_addressable +
- 			patched_crtc_timing.v_border_bottom +
-@@ -3788,8 +3791,7 @@ int dcn10_get_vupdate_offset_from_vsync(
- 
- 	asic_blank_end = (patched_crtc_timing.v_total -
- 			vesa_sync_start -
--			patched_crtc_timing.v_border_top)
--			* interlace_factor;
-+			patched_crtc_timing.v_border_top); // * interlace_factor;
- 
- 	return asic_blank_end -
- 			pipe_ctx->pipe_dlg_param.vstartup_start + 1;
 Index: linux-next/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
 ===================================================================
 --- linux-next.orig/drivers/gpu/drm/amd/display/dc/optc/dcn10/dcn10_optc.c
@@ -142,23 +117,6 @@ Index: linux-next/drivers/gpu/drm/amd/display/dc/dml/calcs/dcn_calcs.c
  
  		v->htotal[input_idx] = pipe->stream->timing.h_total;
  		v->vtotal[input_idx] = pipe->stream->timing.v_total;
-@@ -1219,14 +1220,12 @@ bool dcn_validate_bandwidth(
- 
- 			asic_blank_end = (pipe->stream->timing.v_total -
- 						vesa_sync_start -
--						pipe->stream->timing.v_border_top)
--			* (pipe->stream->timing.flags.INTERLACE ? 1 : 0);
-+						pipe->stream->timing.v_border_top);
- 
- 			asic_blank_start = asic_blank_end +
- 						(pipe->stream->timing.v_border_top +
- 						pipe->stream->timing.v_addressable +
--						pipe->stream->timing.v_border_bottom)
--			* (pipe->stream->timing.flags.INTERLACE ? 1 : 0);
-+						pipe->stream->timing.v_border_bottom);
- 
- 			pipe->pipe_dlg_param.vblank_start = asic_blank_start;
- 			pipe->pipe_dlg_param.vblank_end = asic_blank_end;
 Index: linux-next/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
 ===================================================================
 --- linux-next.orig/drivers/gpu/drm/amd/display/dc/dml/display_mode_vba.c
