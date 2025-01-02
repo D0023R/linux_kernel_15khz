@@ -29,6 +29,18 @@ Index: linux-6.1/drivers/gpu/drm/drm_vblank.c
  		/*
  		 * Figure out how many vblanks we've missed based
  		 * on the difference in the timestamps and the
+@@ -632,11 +638,6 @@ void drm_calc_timestamping_constants(str
+ 		linedur_ns  = div_u64((u64) mode->crtc_htotal * 1000000, dotclock);
+ 		framedur_ns = div_u64((u64) frame_size * 1000000, dotclock);
+ 
+-		/*
+-		 * Fields of interlaced scanout modes are only half a frame duration.
+-		 */
+-		if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+-			framedur_ns /= 2;
+ 	} else {
+ 		drm_err(dev, "crtc %u: Can't calculate constants, dotclock = 0!\n",
+ 			crtc->base.id);
 Index: linux-6.1/drivers/gpu/drm/drm_probe_helper.c
 ===================================================================
 --- linux-6.1.orig/drivers/gpu/drm/drm_probe_helper.c
