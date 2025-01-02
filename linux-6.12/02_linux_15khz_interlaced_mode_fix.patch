@@ -29,3 +29,17 @@ Index: linux-6.12-rc2/drivers/gpu/drm/drm_vblank.c
  		/*
  		 * Figure out how many vblanks we've missed based
  		 * on the difference in the timestamps and the
+Index: linux-6.12/drivers/gpu/drm/drm_probe_helper.c
+===================================================================
+--- linux-6.12.orig/drivers/gpu/drm/drm_probe_helper.c
++++ linux-6.12/drivers/gpu/drm/drm_probe_helper.c
+@@ -163,6 +163,9 @@ static int drm_helper_probe_add_cmdline_
+ 				continue;
+ 		}
+ 
++		if ((mode->flags & DRM_MODE_FLAG_INTERLACE) != cmdline_mode->interlace)
++			continue;
++
+ 		/* Mark the matching mode as being preferred by the user */
+ 		mode->type |= DRM_MODE_TYPE_USERDEF;
+ 		return 0;
