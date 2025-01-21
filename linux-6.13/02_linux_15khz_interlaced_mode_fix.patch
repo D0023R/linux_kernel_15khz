@@ -1,0 +1,57 @@
+Index: linux-6.12-rc2/drivers/gpu/drm/drm_vblank.c
+===================================================================
+--- linux-6.12-rc2.orig/drivers/gpu/drm/drm_vblank.c
++++ linux-6.12-rc2/drivers/gpu/drm/drm_vblank.c
+@@ -293,6 +293,7 @@ static void drm_update_vblank_count(stru
+ 	int count = DRM_TIMESTAMP_MAXRETRIES;
+ 	int framedur_ns = vblank->framedur_ns;
+ 	u32 max_vblank_count = drm_max_vblank_count(dev, pipe);
++	struct drm_crtc *crtc = drm_crtc_from_index(dev, pipe);
+ 
+ 	/*
+ 	 * Interrupts were disabled prior to this call, so deal with counter
+@@ -311,12 +312,17 @@ static void drm_update_vblank_count(stru
+ 		rc = drm_get_last_vbltimestamp(dev, pipe, &t_vblank, in_vblank_irq);
+ 	} while (cur_vblank != __get_vblank_counter(dev, pipe) && --count > 0);
+ 
+-	if (max_vblank_count) {
++	/* We can't use the hw counter for interlace modes */
++	if (max_vblank_count && !(crtc->hwmode.flags & DRM_MODE_FLAG_INTERLACE)) {
+ 		/* trust the hw counter when it's around */
+ 		diff = (cur_vblank - vblank->last) & max_vblank_count;
+ 	} else if (rc && framedur_ns) {
+ 		u64 diff_ns = ktime_to_ns(ktime_sub(t_vblank, vblank->time));
+ 
++		/* Make sure we don't have a negative diff, if so discard it */
++		if (t_vblank < vblank->time)
++			return;
++
+ 		/*
+ 		 * Figure out how many vblanks we've missed based
+ 		 * on the difference in the timestamps and the
+@@ -635,11 +641,6 @@ void drm_calc_timestamping_constants(struct drm_crtc *crtc,
+ 		linedur_ns  = div_u64((u64) mode->crtc_htotal * 1000000, dotclock);
+ 		framedur_ns = div_u64((u64) frame_size * 1000000, dotclock);
+ 
+-		/*
+-		 * Fields of interlaced scanout modes are only half a frame duration.
+-		 */
+-		if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+-			framedur_ns /= 2;
+ 	} else {
+ 		drm_err(dev, "crtc %u: Can't calculate constants, dotclock = 0!\n",
+ 			crtc->base.id);
+Index: linux-6.12/drivers/gpu/drm/drm_probe_helper.c
+===================================================================
+--- linux-6.12.orig/drivers/gpu/drm/drm_probe_helper.c
++++ linux-6.12/drivers/gpu/drm/drm_probe_helper.c
+@@ -163,6 +163,9 @@ static int drm_helper_probe_add_cmdline_
+ 				continue;
+ 		}
+ 
++		if ((mode->flags & DRM_MODE_FLAG_INTERLACE) != cmdline_mode->interlace)
++			continue;
++
+ 		/* Mark the matching mode as being preferred by the user */
+ 		mode->type |= DRM_MODE_TYPE_USERDEF;
+ 		return 0;
