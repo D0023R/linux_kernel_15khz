@@ -1,7 +1,7 @@
-Index: linux-6.12-rc2/drivers/gpu/drm/drm_vblank.c
+Index: linux-6.13/drivers/gpu/drm/drm_vblank.c
 ===================================================================
---- linux-6.12-rc2.orig/drivers/gpu/drm/drm_vblank.c
-+++ linux-6.12-rc2/drivers/gpu/drm/drm_vblank.c
+--- linux-6.13.orig/drivers/gpu/drm/drm_vblank.c
++++ linux-6.13/drivers/gpu/drm/drm_vblank.c
 @@ -293,6 +293,7 @@ static void drm_update_vblank_count(stru
  	int count = DRM_TIMESTAMP_MAXRETRIES;
  	int framedur_ns = vblank->framedur_ns;
@@ -29,22 +29,10 @@ Index: linux-6.12-rc2/drivers/gpu/drm/drm_vblank.c
  		/*
  		 * Figure out how many vblanks we've missed based
  		 * on the difference in the timestamps and the
-@@ -635,11 +641,6 @@ void drm_calc_timestamping_constants(struct drm_crtc *crtc,
- 		linedur_ns  = div_u64((u64) mode->crtc_htotal * 1000000, dotclock);
- 		framedur_ns = div_u64((u64) frame_size * 1000000, dotclock);
- 
--		/*
--		 * Fields of interlaced scanout modes are only half a frame duration.
--		 */
--		if (mode->flags & DRM_MODE_FLAG_INTERLACE)
--			framedur_ns /= 2;
- 	} else {
- 		drm_err(dev, "crtc %u: Can't calculate constants, dotclock = 0!\n",
- 			crtc->base.id);
-Index: linux-6.12/drivers/gpu/drm/drm_probe_helper.c
+Index: linux-6.13/drivers/gpu/drm/drm_probe_helper.c
 ===================================================================
---- linux-6.12.orig/drivers/gpu/drm/drm_probe_helper.c
-+++ linux-6.12/drivers/gpu/drm/drm_probe_helper.c
+--- linux-6.13.orig/drivers/gpu/drm/drm_probe_helper.c
++++ linux-6.13/drivers/gpu/drm/drm_probe_helper.c
 @@ -163,6 +163,9 @@ static int drm_helper_probe_add_cmdline_
  				continue;
  		}
