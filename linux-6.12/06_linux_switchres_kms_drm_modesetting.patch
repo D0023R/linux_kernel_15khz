@@ -9,8 +9,8 @@ Index: linux-6.12/drivers/gpu/drm/drm_connector.c
 +	INIT_LIST_HEAD(&connector->user_modes);
  	INIT_LIST_HEAD(&connector->modes);
  	mutex_init(&connector->mutex);
- 	mutex_init(&connector->edid_override_mutex);
-@@ -647,6 +648,11 @@ void drm_connector_cleanup(struct drm_co
+ 	mutex_init(&connector->eld_mutex);
+@@ -648,6 +649,11 @@ void drm_connector_cleanup(struct drm_co
  	list_for_each_entry_safe(mode, t, &connector->probed_modes, head)
  		drm_mode_remove(connector, mode);
  
