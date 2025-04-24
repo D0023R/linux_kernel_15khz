@@ -6,7 +6,7 @@ The provided kernel patches enable the 15kHz video output with additional featur
 
 **Current:** 
 
-- *Mainline* release: **6.14.3**
+- *Mainline* release: **6.14.4**
 - *EOL* release: **6.13.10**
 - *Stable* release: **6.12.22**
 - *Longterm* release: **6.6.86**
