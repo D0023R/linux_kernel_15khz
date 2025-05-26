@@ -2,7 +2,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 ===================================================================
 --- linux-6.6.orig/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ linux-6.6/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -5538,6 +5538,8 @@ static void fill_stream_properties_from_
+@@ -5549,6 +5549,8 @@ static void fill_stream_properties_from_
  			timing_out->flags.HSYNC_POSITIVE_POLARITY = 1;
  		if (mode_in->flags & DRM_MODE_FLAG_PVSYNC)
  			timing_out->flags.VSYNC_POSITIVE_POLARITY = 1;
@@ -11,7 +11,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  	}
  
  	if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-@@ -6121,6 +6123,8 @@ create_stream_for_sink(struct amdgpu_dm_
+@@ -6132,6 +6134,8 @@ create_stream_for_sink(struct amdgpu_dm_
  
  	if (recalculate_timing)
  		drm_mode_set_crtcinfo(&saved_mode, 0);
@@ -20,7 +20,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  
  	/*
  	 * If scaling is enabled and refresh rate didn't change
-@@ -6671,8 +6675,7 @@ enum drm_mode_status amdgpu_dm_connector
+@@ -6682,8 +6686,7 @@ enum drm_mode_status amdgpu_dm_connector
  	struct dc_stream_state *stream;
  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
  
@@ -30,7 +30,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  		return result;
  
  	/*
-@@ -7369,7 +7372,7 @@ void amdgpu_dm_connector_init_helper(str
+@@ -7380,7 +7383,7 @@ void amdgpu_dm_connector_init_helper(str
  	aconnector->connector_id = link_index;
  	aconnector->bl_idx = -1;
  	aconnector->dc_link = link;
@@ -43,7 +43,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
 ===================================================================
 --- linux-6.6.orig/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
 +++ linux-6.6/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-@@ -2684,6 +2684,9 @@ static void update_scaler(struct pipe_ct
+@@ -2680,6 +2680,9 @@ static void update_scaler(struct pipe_ct
  	pipe_ctx->plane_res.scl_data.lb_params.alpha_en = per_pixel_alpha;
  	pipe_ctx->plane_res.scl_data.lb_params.depth = LB_PIXEL_DEPTH_36BPP;
  	/* scaler configuration */
