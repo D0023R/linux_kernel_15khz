@@ -2,7 +2,7 @@ Index: linux-6.14/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 ===================================================================
 --- linux-6.14.orig/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ linux-6.14/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6287,6 +6287,8 @@ static void fill_stream_properties_from_
+@@ -6278,6 +6278,8 @@ static void fill_stream_properties_from_
  			timing_out->flags.HSYNC_POSITIVE_POLARITY = 1;
  		if (mode_in->flags & DRM_MODE_FLAG_PVSYNC)
  			timing_out->flags.VSYNC_POSITIVE_POLARITY = 1;
@@ -11,7 +11,7 @@ Index: linux-6.14/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  	}
  
  	if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-@@ -6888,6 +6890,8 @@ create_stream_for_sink(struct drm_connec
+@@ -6879,6 +6881,8 @@ create_stream_for_sink(struct drm_connec
  
  	if (recalculate_timing)
  		drm_mode_set_crtcinfo(&saved_mode, 0);
@@ -20,8 +20,8 @@ Index: linux-6.14/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  
  	/*
  	 * If scaling is enabled and refresh rate didn't change
-@@ -7570,8 +7574,7 @@ enum drm_mode_status amdgpu_dm_connector
- 	struct dc_stream_state *stream;
+@@ -7569,8 +7573,7 @@ enum drm_mode_status amdgpu_dm_connector
+ 	 */
  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
  
 -	if ((mode->flags & DRM_MODE_FLAG_INTERLACE) ||
@@ -30,7 +30,7 @@ Index: linux-6.14/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  		return result;
  
  	/*
-@@ -8279,7 +8282,7 @@ void amdgpu_dm_connector_init_helper(str
+@@ -8278,7 +8281,7 @@ void amdgpu_dm_connector_init_helper(str
  	aconnector->connector_id = link_index;
  	aconnector->bl_idx = -1;
  	aconnector->dc_link = link;
@@ -43,7 +43,7 @@ Index: linux-6.14/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
 ===================================================================
 --- linux-6.14.orig/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
 +++ linux-6.14/drivers/gpu/drm/amd/display/dc/hwss/dcn10/dcn10_hwseq.c
-@@ -2756,6 +2756,9 @@ static void update_scaler(struct pipe_ct
+@@ -2754,6 +2754,9 @@ static void update_scaler(struct pipe_ct
  	pipe_ctx->plane_res.scl_data.lb_params.alpha_en = per_pixel_alpha;
  	pipe_ctx->plane_res.scl_data.lb_params.depth = LB_PIXEL_DEPTH_36BPP;
  	/* scaler configuration */
@@ -72,7 +72,7 @@ Index: linux-6.14/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
 ===================================================================
 --- linux-6.14.orig/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
 +++ linux-6.14/drivers/gpu/drm/amd/display/dc/hwss/dcn20/dcn20_hwseq.c
-@@ -1757,6 +1757,9 @@ void dcn20_update_dchubp_dpp(
+@@ -1761,6 +1761,9 @@ void dcn20_update_dchubp_dpp(
  		pipe_ctx->plane_res.scl_data.lb_params.alpha_en = pipe_ctx->plane_state->per_pixel_alpha;
  		ASSERT(pipe_ctx->plane_res.scl_data.lb_params.depth == LB_PIXEL_DEPTH_36BPP);
  		/* scaler configuration */
