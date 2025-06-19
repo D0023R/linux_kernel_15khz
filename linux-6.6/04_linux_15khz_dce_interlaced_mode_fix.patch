@@ -2,7 +2,7 @@ Index: linux-6.6/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
 ===================================================================
 --- linux-6.6.orig/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
 +++ linux-6.6/drivers/gpu/drm/amd/display/dc/dce110/dce110_hw_sequencer.c
-@@ -2729,6 +2729,9 @@ static void dce110_program_front_end_for
+@@ -2730,6 +2730,9 @@ static void dce110_program_front_end_for
  
  	pipe_ctx->plane_res.scl_data.lb_params.alpha_en = pipe_ctx->bottom_pipe != NULL;
  
