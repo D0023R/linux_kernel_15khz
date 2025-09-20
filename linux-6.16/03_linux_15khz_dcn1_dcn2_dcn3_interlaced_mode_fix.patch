@@ -2,7 +2,7 @@ Index: linux-6.16/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 ===================================================================
 --- linux-6.16.orig/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ linux-6.16/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6352,6 +6352,8 @@ static void fill_stream_properties_from_
+@@ -6362,6 +6362,8 @@ static void fill_stream_properties_from_
  			timing_out->flags.HSYNC_POSITIVE_POLARITY = 1;
  		if (mode_in->flags & DRM_MODE_FLAG_PVSYNC)
  			timing_out->flags.VSYNC_POSITIVE_POLARITY = 1;
@@ -11,7 +11,7 @@ Index: linux-6.16/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  	}
  
  	if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A) {
-@@ -6957,6 +6959,8 @@ create_stream_for_sink(struct drm_connec
+@@ -6967,6 +6969,8 @@ create_stream_for_sink(struct drm_connec
  
  	if (recalculate_timing)
  		drm_mode_set_crtcinfo(&saved_mode, 0);
@@ -20,7 +20,7 @@ Index: linux-6.16/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  
  	/*
  	 * If scaling is enabled and refresh rate didn't change
-@@ -7649,8 +7653,7 @@ enum drm_mode_status amdgpu_dm_connector
+@@ -7659,8 +7663,7 @@ enum drm_mode_status amdgpu_dm_connector
  	 */
  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
  
@@ -30,7 +30,7 @@ Index: linux-6.16/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  		return result;
  
  	/*
-@@ -8366,7 +8369,7 @@ void amdgpu_dm_connector_init_helper(str
+@@ -8376,7 +8379,7 @@ void amdgpu_dm_connector_init_helper(str
  	aconnector->connector_id = link_index;
  	aconnector->bl_idx = -1;
  	aconnector->dc_link = link;
