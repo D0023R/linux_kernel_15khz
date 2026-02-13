@@ -16,6 +16,18 @@ The provided kernel patches enable the 15kHz video output with additional featur
 
 - *Next* release: **6.13-rc5**
 
+08_linux_15khz_interlace_force_even.patch
+| File set for kernel 6.19 and later                      | Description                                                                             |
+| ------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| 01_linux_15khz.patch                                    | main patch for 15 kHz support                                                           |
+| 02_linux_15khz_interlaced_mode_fix.patch                | necessary for radeon driver, fix the vertical blank interrupt                           |
+| 03_linux_15khz_dcn1_dcn2_dcn3_interlaced_mode_fix.patch | necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU |
+| 04_linux_15khz_dce_interlaced_mode_fix.patch            | necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU |
+| 05_linux_15khz_amdgpu_pll_fix.patch                     | necessary for amdgpu driver, fix PLL calculation                                        |
+| 06_linux_switchres_kms_drm_modesetting.patch            | KMS modesetting manipulation for X-less switchres KMS usage, groovyarcade kms enabler   |
+| 07_linux_15khz_fix_ddc.patch                            | kernel 6.7+ only, fix kernel oops when probing DDC and no adapter is connected           |
+| 08_linux_15khz_interlace_force_even.patch               | force even field on interlaced picture for amd DCN1                                     |
+
 | File set for kernel 6.12 and later                      | Description                                                                             |
 | ------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | 01_linux_15khz.patch                                    | main patch for 15 kHz support                                                           |

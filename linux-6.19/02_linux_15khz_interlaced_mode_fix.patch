@@ -29,6 +29,16 @@ Index: linux-6.19/drivers/gpu/drm/drm_vblank.c
  		/*
  		 * Figure out how many vblanks we've missed based
  		 * on the difference in the timestamps and the
+@@ -794,6 +800,9 @@ drm_crtc_vblank_helper_get_vblank_timest
+ 	delta_ns = div_s64(1000000LL * (vpos * mode->crtc_htotal + hpos),
+ 			   mode->crtc_clock);
+ 
++	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
++		delta_ns /= 2;
++
+ 	/* Subtract time delta from raw timestamp to get final
+ 	 * vblank_time timestamp for end of vblank.
+ 	 */
 Index: linux-6.19/drivers/gpu/drm/drm_probe_helper.c
 ===================================================================
 --- linux-6.19.orig/drivers/gpu/drm/drm_probe_helper.c
@@ -43,3 +53,16 @@ Index: linux-6.19/drivers/gpu/drm/drm_probe_helper.c
  		/* Mark the matching mode as being preferred by the user */
  		mode->type |= DRM_MODE_TYPE_USERDEF;
  		return 0;
+Index: linux-6.19/drivers/gpu/drm/drm_modes.c
+===================================================================
+--- linux-6.19.orig/drivers/gpu/drm/drm_modes.c
++++ linux-6.19/drivers/gpu/drm/drm_modes.c
+@@ -1362,6 +1362,8 @@ void drm_mode_set_crtcinfo(struct drm_di
+ 	p->crtc_vsync_end = p->vsync_end;
+ 	p->crtc_vtotal = p->vtotal;
+ 
++	adjust_flags &= ~CRTC_INTERLACE_HALVE_V;
++
+ 	if (p->flags & DRM_MODE_FLAG_INTERLACE) {
+ 		if (adjust_flags & CRTC_INTERLACE_HALVE_V) {
+ 			p->crtc_vdisplay /= 2;
