@@ -2,7 +2,7 @@ Index: linux-next/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
 ===================================================================
 --- linux-next.orig/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
 +++ linux-next/drivers/gpu/drm/amd/display/dc/hwss/dce110/dce110_hwseq.c
-@@ -2917,6 +2917,9 @@ static void dce110_program_front_end_for
+@@ -2993,6 +2993,9 @@ static void dce110_program_front_end_for
  
  	pipe_ctx->plane_res.scl_data.lb_params.alpha_en = pipe_ctx->bottom_pipe != NULL;
  
@@ -112,10 +112,10 @@ Index: linux-next/drivers/gpu/drm/amd/display/dc/dce120/dce120_timing_generator.
  }
  
  static bool dce120_tg_is_blanked(struct timing_generator *tg)
-Index: linux-next/drivers/gpu/drm/amd/display/dc/dce60/dce60_hw_sequencer.c
+Index: linux-next/drivers/gpu/drm/amd/display/dc/hwss/dce60/dce60_hwseq.c
 ===================================================================
---- linux-next.orig/drivers/gpu/drm/amd/display/dc/dce60/dce60_hw_sequencer.c
-+++ linux-next/drivers/gpu/drm/amd/display/dc/dce60/dce60_hw_sequencer.c
+--- linux-next.orig/drivers/gpu/drm/amd/display/dc/hwss/dce60/dce60_hwseq.c
++++ linux-next/drivers/gpu/drm/amd/display/dc/hwss/dce60/dce60_hwseq.c
 @@ -311,6 +311,9 @@ dce60_program_front_end_for_pipe(
  
  	pipe_ctx->plane_res.scl_data.lb_params.alpha_en = pipe_ctx->bottom_pipe != 0;

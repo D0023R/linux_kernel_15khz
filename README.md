@@ -14,7 +14,7 @@ The provided kernel patches enable the 15kHz video output with additional featur
 
 **Untested experimental:** 
 
-- *Next* release: **6.13-rc5**
+- *Next* release: **next-20260213**
 
 08_linux_15khz_interlace_force_even.patch
 | File set for kernel 6.19 and later                      | Description                                                                                                |

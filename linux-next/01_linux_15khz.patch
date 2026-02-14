@@ -10,7 +10,7 @@ Index: linux-next/drivers/gpu/drm/drm_modes.c
  
  /**
   * drm_mode_debug_printmodeline - print a mode to dmesg
-@@ -2031,7 +2032,7 @@ static int drm_mode_parse_cmdline_res_mo
+@@ -2030,7 +2031,7 @@ static int drm_mode_parse_cmdline_res_mo
  					   struct drm_cmdline_mode *mode)
  {
  	const char *str_start = str;
@@ -19,7 +19,7 @@ Index: linux-next/drivers/gpu/drm/drm_modes.c
  	int xres = 0, yres = 0;
  	int remaining, i;
  	char *end_ptr;
-@@ -2061,6 +2062,12 @@ static int drm_mode_parse_cmdline_res_mo
+@@ -2060,6 +2061,12 @@ static int drm_mode_parse_cmdline_res_mo
  		case 'R':
  			rb = true;
  			break;
@@ -32,7 +32,7 @@ Index: linux-next/drivers/gpu/drm/drm_modes.c
  		default:
  			/*
  			 * Try to pass that to our extras parsing
-@@ -2085,6 +2092,7 @@ static int drm_mode_parse_cmdline_res_mo
+@@ -2084,6 +2091,7 @@ static int drm_mode_parse_cmdline_res_mo
  	mode->yres = yres;
  	mode->cvt = cvt;
  	mode->rb = rb;
@@ -40,7 +40,7 @@ Index: linux-next/drivers/gpu/drm/drm_modes.c
  
  	return 0;
  }
-@@ -2548,7 +2556,11 @@ drm_mode_create_from_cmdline_mode(struct
+@@ -2547,7 +2555,11 @@ drm_mode_create_from_cmdline_mode(struct
  
  	if (strlen(cmd->name))
  		mode = drm_named_mode(dev, cmd);
@@ -246,7 +246,7 @@ Index: linux-next/drivers/gpu/drm/drm_probe_helper.c
 ===================================================================
 --- linux-next.orig/drivers/gpu/drm/drm_probe_helper.c
 +++ linux-next/drivers/gpu/drm/drm_probe_helper.c
-@@ -459,25 +459,31 @@ static int __drm_helper_update_and_valid
+@@ -461,25 +461,31 @@ static int __drm_helper_update_and_valid
  		mode_flags |= DRM_MODE_FLAG_3D_MASK;
  
  	list_for_each_entry(mode, &connector->modes, head) {
@@ -278,7 +278,7 @@ Index: linux-next/drivers/gpu/drm/drm_probe_helper.c
  		ret = drm_mode_validate_pipeline(mode, connector, ctx,
  						 &mode->status);
  		if (ret) {
-@@ -490,6 +496,7 @@ static int __drm_helper_update_and_valid
+@@ -492,6 +498,7 @@ static int __drm_helper_update_and_valid
  			else
  				return -EDEADLK;
  		}
@@ -286,7 +286,7 @@ Index: linux-next/drivers/gpu/drm/drm_probe_helper.c
  	}
  
  	return 0;
-@@ -559,6 +566,7 @@ int drm_helper_probe_single_connector_mo
+@@ -561,6 +568,7 @@ int drm_helper_probe_single_connector_mo
  {
  	struct drm_device *dev = connector->dev;
  	struct drm_display_mode *mode;
@@ -294,7 +294,7 @@ Index: linux-next/drivers/gpu/drm/drm_probe_helper.c
  	int count = 0, ret;
  	enum drm_connector_status old_status;
  	struct drm_modeset_acquire_ctx ctx;
-@@ -644,10 +652,13 @@ retry:
+@@ -646,10 +654,13 @@ retry:
  		goto exit;
  	}
  
@@ -313,7 +313,7 @@ Index: linux-next/include/drm/drm_connector.h
 ===================================================================
 --- linux-next.orig/include/drm/drm_connector.h
 +++ linux-next/include/drm/drm_connector.h
-@@ -1601,6 +1601,13 @@ struct drm_cmdline_mode {
+@@ -1741,6 +1741,13 @@ struct drm_cmdline_mode {
  	bool interlace;
  
  	/**
