@@ -1,0 +1,68 @@
+Index: linux-7.0/drivers/gpu/drm/drm_vblank.c
+===================================================================
+--- linux-7.0.orig/drivers/gpu/drm/drm_vblank.c
++++ linux-7.0/drivers/gpu/drm/drm_vblank.c
+@@ -302,6 +302,7 @@ static void drm_update_vblank_count(stru
+ 	int count = DRM_TIMESTAMP_MAXRETRIES;
+ 	int framedur_ns = vblank->framedur_ns;
+ 	u32 max_vblank_count = drm_max_vblank_count(dev, pipe);
++	struct drm_crtc *crtc = drm_crtc_from_index(dev, pipe);
+ 
+ 	/*
+ 	 * Interrupts were disabled prior to this call, so deal with counter
+@@ -320,12 +321,17 @@ static void drm_update_vblank_count(stru
+ 		rc = drm_get_last_vbltimestamp(dev, pipe, &t_vblank, in_vblank_irq);
+ 	} while (cur_vblank != __get_vblank_counter(dev, pipe) && --count > 0);
+ 
+-	if (max_vblank_count) {
++	/* We can't use the hw counter for interlace modes */
++	if (max_vblank_count && !(crtc->hwmode.flags & DRM_MODE_FLAG_INTERLACE)) {
+ 		/* trust the hw counter when it's around */
+ 		diff = (cur_vblank - vblank->last) & max_vblank_count;
+ 	} else if (rc && framedur_ns) {
+ 		u64 diff_ns = ktime_to_ns(ktime_sub(t_vblank, vblank->time));
+ 
++		/* Make sure we don't have a negative diff, if so discard it */
++		if (t_vblank < vblank->time)
++			return;
++
+ 		/*
+ 		 * Figure out how many vblanks we've missed based
+ 		 * on the difference in the timestamps and the
+@@ -798,6 +804,9 @@ drm_crtc_vblank_helper_get_vblank_timest
+ 	delta_ns = div_s64(1000000LL * (vpos * mode->crtc_htotal + hpos),
+ 			   mode->crtc_clock);
+ 
++	if (mode->flags & DRM_MODE_FLAG_INTERLACE)
++		delta_ns /= 2;
++
+ 	/* Subtract time delta from raw timestamp to get final
+ 	 * vblank_time timestamp for end of vblank.
+ 	 */
+Index: linux-7.0/drivers/gpu/drm/drm_probe_helper.c
+===================================================================
+--- linux-7.0.orig/drivers/gpu/drm/drm_probe_helper.c
++++ linux-7.0/drivers/gpu/drm/drm_probe_helper.c
+@@ -164,6 +164,9 @@ static int drm_helper_probe_add_cmdline_
+ 				continue;
+ 		}
+ 
++		if ((mode->flags & DRM_MODE_FLAG_INTERLACE) != cmdline_mode->interlace)
++			continue;
++
+ 		/* Mark the matching mode as being preferred by the user */
+ 		mode->type |= DRM_MODE_TYPE_USERDEF;
+ 		return 0;
+Index: linux-7.0/drivers/gpu/drm/drm_modes.c
+===================================================================
+--- linux-7.0.orig/drivers/gpu/drm/drm_modes.c
++++ linux-7.0/drivers/gpu/drm/drm_modes.c
+@@ -1362,6 +1362,8 @@ void drm_mode_set_crtcinfo(struct drm_di
+ 	p->crtc_vsync_end = p->vsync_end;
+ 	p->crtc_vtotal = p->vtotal;
+ 
++	adjust_flags &= ~CRTC_INTERLACE_HALVE_V;
++
+ 	if (p->flags & DRM_MODE_FLAG_INTERLACE) {
+ 		if (adjust_flags & CRTC_INTERLACE_HALVE_V) {
+ 			p->crtc_vdisplay /= 2;
