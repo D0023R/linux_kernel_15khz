@@ -1,0 +1,14 @@
+Index: xf86-video-amdgpu-22.0.0/src/drmmode_display.c
+===================================================================
+--- xf86-video-amdgpu-22.0.0.orig/src/drmmode_display.c
++++ xf86-video-amdgpu-22.0.0/src/drmmode_display.c
+@@ -3152,8 +3152,8 @@ Bool drmmode_pre_init(ScrnInfoPtr pScrn, drmmode_ptr drmmode, int cpp)
+ 	mode_res = drmModeGetResources(pAMDGPUEnt->fd);
+ 	if (!mode_res)
+ 		return FALSE;
+ 	drmmode->count_crtcs = mode_res->count_crtcs;
+-	xf86CrtcSetSizeRange(pScrn, 320, 200, mode_res->max_width,
++	xf86CrtcSetSizeRange(pScrn, 192, 192, mode_res->max_width,
+ 			     mode_res->max_height);
+ 
+ 	xf86DrvMsgVerb(pScrn->scrnIndex, X_INFO, AMDGPU_LOGLEVEL_DEBUG,
