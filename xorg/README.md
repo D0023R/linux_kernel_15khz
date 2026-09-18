@@ -59,17 +59,21 @@ If your distribution stores the Xorg log elsewhere, query that log instead. Also
 
 | Directory | Component / source baseline | Patched source file | Validation status |
 | --- | --- | --- | --- |
-| `xserver-1.20/` | Xorg Server 1.20 family; authored against 1.20.14 | `hw/xfree86/drivers/modesetting/drmmode_display.c` | Source location verified; same call also checked in 1.20.11 |
-| `xserver-21.1/` | Xorg Server 21.1 family; authored against 21.1.24 | `hw/xfree86/drivers/modesetting/drmmode_display.c` | Source verified against 21.1.24; MIN192 behavior runtime-tested through `modesetting_drv.so` |
-| `xf86-video-amdgpu-19.1/` | xf86-video-amdgpu 19.1.0 | `src/drmmode_display.c` | Source verified |
-| `xf86-video-amdgpu-21.0/` | xf86-video-amdgpu 21.0.0 | `src/drmmode_display.c` | Source verified |
-| `xf86-video-amdgpu-22.0/` | xf86-video-amdgpu 22.0.0 | `src/drmmode_display.c` | Source verified |
-| `xf86-video-amdgpu-23.0/` | xf86-video-amdgpu 23.0.0 | `src/drmmode_display.c` | Source verified |
-| `xf86-video-amdgpu-25.0/` | xf86-video-amdgpu 25.0.0 | `src/drmmode_display.c` | Source verified and runtime-tested through `amdgpu_drv.so` |
+| `xserver-1.20/` | Xorg Server 1.20.14 | `hw/xfree86/drivers/modesetting/drmmode_display.c` | Exact source context and patch application verified |
+| `xserver-21.1/` | Xorg Server 21.1.24 | `hw/xfree86/drivers/modesetting/drmmode_display.c` | Exact source context and patch application verified |
+| `xf86-video-amdgpu-19.1/` | xf86-video-amdgpu 19.1.0 | `src/drmmode_display.c` | Exact source context and patch application verified |
+| `xf86-video-amdgpu-21.0/` | xf86-video-amdgpu 21.0.0 | `src/drmmode_display.c` | Exact source context and patch application verified |
+| `xf86-video-amdgpu-22.0/` | xf86-video-amdgpu 22.0.0 | `src/drmmode_display.c` | Exact source context and patch application verified |
+| `xf86-video-amdgpu-23.0/` | xf86-video-amdgpu 23.0.0 | `src/drmmode_display.c` | Exact source context and patch application verified |
+| `xf86-video-amdgpu-25.0/` | xf86-video-amdgpu 25.0.0 | `src/drmmode_display.c` | Exact source context and patch application verified |
 
 The version-family layout follows the same principle as the kernel patch library: select the directory matching the source revision you are building. The patch purpose and filename remain consistent while source-specific hunks can evolve with upstream changes.
 
 A source-verified entry is not the same as a runtime-tested distribution build. Distribution backports or downstream modifications can change patch context, so always perform a dry run against the exact source package you intend to build.
+
+On **2026-09-18**, all seven patches were checked against the complete target files from the official release archives listed in [docs/source-verification.json](docs/source-verification.json). Each hunk matches at its stated line, passes `git apply --check`, and applies successfully. Comparing the complete resulting file confirms that only `320, 200` changes to `192, 192` in `xf86CrtcSetSizeRange()`.
+
+This refresh corrects missing blank-line context in five patches and updates hunk line numbers in all seven. It preserves the MIN192 code change. The verification record includes archive, source-file, and patch SHA-256 hashes. These are source/application checks; this refresh adds no new build or hardware-test claims.
 
 ## Applying a patch
 
@@ -79,19 +83,19 @@ Example for Xorg Server 21.1:
 
 ```bash
 cd xorg-server-21.1.24
-patch --dry-run -p1 < /path/to/linux_kernel_15khz/xorg/xserver-21.1/01_xorg_low_resolution_min_192x192.patch
-patch -p1 < /path/to/linux_kernel_15khz/xorg/xserver-21.1/01_xorg_low_resolution_min_192x192.patch
+patch --dry-run --fuzz=0 -p1 < /path/to/linux_kernel_15khz/xorg/xserver-21.1/01_xorg_low_resolution_min_192x192.patch
+patch --fuzz=0 -p1 < /path/to/linux_kernel_15khz/xorg/xserver-21.1/01_xorg_low_resolution_min_192x192.patch
 ```
 
 Example for xf86-video-amdgpu 25.0:
 
 ```bash
 cd xf86-video-amdgpu-25.0.0
-patch --dry-run -p1 < /path/to/linux_kernel_15khz/xorg/xf86-video-amdgpu-25.0/01_amdgpu_low_resolution_min_192x192.patch
-patch -p1 < /path/to/linux_kernel_15khz/xorg/xf86-video-amdgpu-25.0/01_amdgpu_low_resolution_min_192x192.patch
+patch --dry-run --fuzz=0 -p1 < /path/to/linux_kernel_15khz/xorg/xf86-video-amdgpu-25.0/01_amdgpu_low_resolution_min_192x192.patch
+patch --fuzz=0 -p1 < /path/to/linux_kernel_15khz/xorg/xf86-video-amdgpu-25.0/01_amdgpu_low_resolution_min_192x192.patch
 ```
 
-Compile and package the component using the normal procedure for your distribution after the patch applies cleanly.
+These examples use GNU patch. Investigate any failed hunks or offsets against the exact source package. Compile and package the component using the normal procedure for your distribution after the patch applies cleanly.
 
 ## Runtime verification
 
@@ -108,6 +112,8 @@ Screen 0: minimum 192 x 192, ...
 ```
 
 Then verify a native low-resolution mode such as `256x224` using the same CRT/Switchres configuration used for the unpatched comparison.
+
+Check both the overall `Screen 0` dimensions and the connector's active mode. For a single-output `256x224` test, the expected screen size is `current 256 x 224`. Lowering the minimum permits this framebuffer size; it does not force applications to request it or shrink a desktop that must accommodate other active outputs.
 
 ## Initial test motivation and results
 
@@ -144,4 +150,18 @@ Release archives:
 - Xorg Server: https://www.x.org/releases/individual/xserver/
 - Xorg video drivers: https://www.x.org/releases/individual/driver/
 
-The initial patch set was checked against the corresponding tagged or distribution-hosted source baselines before being added here. Older variants should be moved to `xorg/unmaintained/` when they are no longer maintained, following the repository's kernel-version policy.
+The current patches were refreshed against the exact official source baselines listed above. Older variants should be moved to `xorg/unmaintained/` when their maintenance coverage ends, with the last checked source baseline recorded.
+
+## Community maintenance
+
+**Maintainer:** Rion ([Redemp](https://github.com/Redemp)).
+
+The maintained patch library is [xorg-15khz-crt-patches](https://github.com/Redemp/xorg-15khz-crt-patches). Rion checks upstream Xorg Server and xf86-video-amdgpu releases monthly and submits verified corrections or compatibility updates here through follow-up pull requests when needed. Maintenance of these Xorg patches is handled separately from D0023R's kernel patch updates.
+
+This refresh synchronizes the seven patch files with [maintenance commit da9968846a35cea57504a2b9d2fbfa88bb183bfa](https://github.com/Redemp/xorg-15khz-crt-patches/tree/da9968846a35cea57504a2b9d2fbfa88bb183bfa).
+
+Patch selection follows the Xorg component and source version, not the Linux kernel version. See the maintained library's [contribution guide](https://github.com/Redemp/xorg-15khz-crt-patches/blob/main/CONTRIBUTING.md) for source verification and test-report requirements.
+
+## Xorg patch license and attribution
+
+Rion's original Xorg patch contributions and documentation in this directory are available under the [MIT License](LICENSE). Upstream source context retains its original attribution and permission terms; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
