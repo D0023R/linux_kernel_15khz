@@ -30,7 +30,7 @@ The provided kernel patches enable the 15kHz video output with additional featur
 | | 05_linux_15khz_amdgpu_pll_fix.patch                          | necessary for amdgpu driver, fix PLL calculation                                                                                 |
 | | 06_linux_switchres_kms_drm_modesetting.patch                 | KMS modesetting manipulation for X-less switchres KMS usage, groovyarcade kms enabler                                            |
 |+| 07_linux_15khz_fix_ddc.patch                                 | since kernel 6.7, fix kernel oops when probing DDC and no adapter is connected                                                   |
-|+| 08_linux_15khz_interlace_force_even.patch                    | since kernel 6.19, force even field on interlaced picture for amd DCN1                                                           |
+|+| 08_linux_15khz_interlace_force_even.patch                    | since kernel 6.18, force even field on interlaced picture for amd DCN1                                                           |
 |+| 09_linux_15khz_i915_gen9_interlace.patch                     | optional, for kernel 6.18, target i915 driver, enable interlaced mode on Intel Gen9 (DISPLAY_VER 9) via i915.no_ytiled_scanout=1 |
 
 ### KERNEL COMPATIBILITY
