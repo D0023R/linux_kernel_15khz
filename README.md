@@ -22,7 +22,7 @@ The provided kernel patches enable the 15kHz video output with additional featur
 |-|------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | | 01_linux_15khz.patch                                         | main patch for 15 kHz support                                                                                                      |
 | | 02_linux_15khz_interlaced_mode_fix.patch                     | necessary for radeon driver, fix the vertical blank interrupt                                                                      |
-|+| 03_linux_15khz_dcn1_dcn2_dcn3_dcn4_interlaced_mode_fix.patch | since kernel 6.12, necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU                         |
+|+| 03_linux_15khz_dcn1_dcn2_dcn3_dcn4_interlaced_mode_fix.patch | since kernel 7.1, necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU                         |
 |+| 03_linux_15khz_dcn1_dcn2_dcn3_interlaced_mode_fix.patch      | since kernel 6.12, necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU                         |
 |+| 03_linux_15khz_dcn1_dcn2_interlaced_mode_fix.patch           | up to kernel 6.11, necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU                         |
 | | 04_linux_15khz_dce_interlaced_mode_fix.patch                 | necessary for amdgpu driver, enable interlaced mode on standalone graphic cards and APU                                            |
