@@ -11,7 +11,7 @@ Index: linux-7.2.8/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  	}
  
  	if (stream->signal == SIGNAL_TYPE_HDMI_TYPE_A ||
-@@ -7801,6 +7803,8 @@ create_stream_for_sink(struct drm_connec
+@@ -7806,6 +7808,8 @@ create_stream_for_sink(struct drm_connec
  
  	if (recalculate_timing)
  		drm_mode_set_crtcinfo(&saved_mode, 0);
@@ -20,7 +20,7 @@ Index: linux-7.2.8/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  
  	/*
  	 * If scaling is enabled and refresh rate didn't change
-@@ -8677,8 +8681,7 @@ enum drm_mode_status amdgpu_dm_connector
+@@ -8682,8 +8686,7 @@ enum drm_mode_status amdgpu_dm_connector
  	 */
  	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
  
@@ -30,7 +30,7 @@ Index: linux-7.2.8/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
  		return result;
  
  	/*
-@@ -9498,7 +9501,7 @@ void amdgpu_dm_connector_init_helper(str
+@@ -9503,7 +9506,7 @@ void amdgpu_dm_connector_init_helper(str
  	aconnector->connector_id = link_index;
  	aconnector->bl_idx = -1;
  	aconnector->dc_link = link;
