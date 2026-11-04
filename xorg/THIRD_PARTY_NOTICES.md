@@ -5,10 +5,10 @@ The patches include context from upstream `drmmode_display.c` files. The notices
 ## Source files
 
 - Xorg Server 1.20.14, `hw/xfree86/drivers/modesetting/drmmode_display.c`: Copyright 2007 Red Hat, Inc.; author Dave Airlie.
-- Xorg Server 21.1.24, `hw/xfree86/drivers/modesetting/drmmode_display.c`: Copyright 2007 Red Hat, Inc. and Copyright 2019 NVIDIA CORPORATION; authors Dave Airlie and Aaron Plattner.
+- Xorg Server 21.1.24 and 21.1.25, plus the experimental 26.0.99.903 prerelease, `hw/xfree86/drivers/modesetting/drmmode_display.c`: Copyright 2007 Red Hat, Inc. and Copyright 2019 NVIDIA CORPORATION; authors Dave Airlie and Aaron Plattner.
 - xf86-video-amdgpu 19.1.0, 21.0.0, 22.0.0, 23.0.0, and 25.0.0, `src/drmmode_display.c`: Copyright 2007 Red Hat, Inc.; author Dave Airlie.
 
-Exact release archive URLs are recorded in [docs/source-verification.json](docs/source-verification.json).
+Exact release archive URLs are recorded in [docs/source-verification.json](docs/source-verification.json) for stable releases and [docs/prerelease-source-verification.json](docs/prerelease-source-verification.json) for prereleases.
 
 ## Permission terms from the source headers
 
