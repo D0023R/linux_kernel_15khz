@@ -60,7 +60,7 @@ If your distribution stores the Xorg log elsewhere, query that log instead. Also
 | Directory | Component / source baseline | Patched source file | Validation status |
 | --- | --- | --- | --- |
 | `xserver-1.20/` | Xorg Server 1.20.14 | `hw/xfree86/drivers/modesetting/drmmode_display.c` | Exact source context and patch application verified |
-| `xserver-21.1/` | Xorg Server 21.1.24 | `hw/xfree86/drivers/modesetting/drmmode_display.c` | Exact source context and patch application verified |
+| `xserver-21.1/` | Xorg Server 21.1.24 and 21.1.25 | `hw/xfree86/drivers/modesetting/drmmode_display.c` | Exact source context and patch application verified |
 | `xf86-video-amdgpu-19.1/` | xf86-video-amdgpu 19.1.0 | `src/drmmode_display.c` | Exact source context and patch application verified |
 | `xf86-video-amdgpu-21.0/` | xf86-video-amdgpu 21.0.0 | `src/drmmode_display.c` | Exact source context and patch application verified |
 | `xf86-video-amdgpu-22.0/` | xf86-video-amdgpu 22.0.0 | `src/drmmode_display.c` | Exact source context and patch application verified |
@@ -75,6 +75,14 @@ On **2026-09-18**, all seven patches were checked against the complete target fi
 
 This refresh corrects missing blank-line context in five patches and updates hunk line numbers in all seven. It preserves the MIN192 code change. The verification record includes archive, source-file, and patch SHA-256 hashes. These are source/application checks; this refresh adds no new build or hardware-test claims.
 
+On **2026-11-01**, the existing `xserver-21.1/` patch was also verified against the official **Xorg Server 21.1.25** source archive. Its hunk matches at line 3690 and applies without offsets; comparing the complete resulting file confirms that only the two MIN192 arguments change. The additional entry in [docs/source-verification.json](docs/source-verification.json) records the archive URL, SHA-256 hashes, commands, and results. This adds source/application evidence, with no new build or hardware-test claim.
+
+### Experimental prerelease
+
+A separate [staged variant](staging/) covers the exact **Xorg Server 26.0.99.903** prerelease. Its source still contains the same `320x200` restriction. The patch records the prerelease source version and uses a hunk starting at line 3938; its code change remains only the two MIN192 arguments.
+
+On **2026-11-01**, the staged patch was checked against the complete target file from the official archive, applied without offsets, and compared with the original file. Archive and file hashes, commands, and results are in [docs/prerelease-source-verification.json](docs/prerelease-source-verification.json). This variant is experimental, with no build or hardware-test claim, and is separate from the stable coverage table above. Other 26.x versions require their own source review.
+
 ## Applying a patch
 
 Enter the extracted source tree for the component and run `patch -p1` with the matching patch file.
@@ -82,10 +90,12 @@ Enter the extracted source tree for the component and run `patch -p1` with the m
 Example for Xorg Server 21.1:
 
 ```bash
-cd xorg-server-21.1.24
+cd xorg-server-21.1.25
 patch --dry-run --fuzz=0 -p1 < /path/to/linux_kernel_15khz/xorg/xserver-21.1/01_xorg_low_resolution_min_192x192.patch
 patch --fuzz=0 -p1 < /path/to/linux_kernel_15khz/xorg/xserver-21.1/01_xorg_low_resolution_min_192x192.patch
 ```
+
+The Xorg patch headers retain their `21.1.24` directory prefix. `-p1` removes that prefix, so the same patch applies to both verified releases.
 
 Example for xf86-video-amdgpu 25.0:
 
