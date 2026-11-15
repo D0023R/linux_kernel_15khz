@@ -110,5 +110,39 @@
     "applied": true,
     "only_minimum_size_changed": true,
     "output": "Checking patch src/drmmode_display.c..."
+  },
+  {
+    "source": "xorg-server-21.1.25",
+    "release_channel": "stable",
+    "verified_on": "2026-11-01",
+    "patch": "xserver-21.1/01_xorg_low_resolution_min_192x192.patch",
+    "source_url": "https://xorg.freedesktop.org/archive/individual/xserver/xorg-server-21.1.25.tar.xz",
+    "archive_sha256": "6ad4e3c7b59a309b32c92e5c15ce1267110f9e13f1ac78da62361a628da1a0eb",
+    "source_file": "hw/xfree86/drivers/modesetting/drmmode_display.c",
+    "source_file_sha256": "e36ff4f0a73eaf9d6d70ae89718ccacabf4d9f2dab2ca448d667d43e997fe2d7",
+    "patched_source_file_sha256": "1d4e2c8d8aade05aa8c0f7d4f4277fecfd92e7417128831e94ca483a74dd3026",
+    "patch_sha256": "1bd0ff3ec72acc1990b02577f555d201584adeae95ed2cf269bdcd52dc9eb24b",
+    "hunk_start_line": 3690,
+    "minimum_size_call_line": 3694,
+    "minimum_size_restriction_present": true,
+    "hunk_matches_at_exact_line": true,
+    "git_apply_check": true,
+    "applied": true,
+    "only_minimum_size_changed": true,
+    "commands": [
+      {
+        "command": "git -c core.autocrlf=false -c core.safecrlf=false apply --check --verbose <patch>",
+        "exit_code": 0,
+        "output": "Checking patch hw/xfree86/drivers/modesetting/drmmode_display.c..."
+      },
+      {
+        "command": "git -c core.autocrlf=false -c core.safecrlf=false apply --verbose <patch>",
+        "exit_code": 0,
+        "output": "Checking patch hw/xfree86/drivers/modesetting/drmmode_display.c...\nApplied patch hw/xfree86/drivers/modesetting/drmmode_display.c cleanly."
+      }
+    ],
+    "gnu_patch_check_performed": false,
+    "build_tested": false,
+    "hardware_tested": false
   }
 ]
