@@ -135,3 +135,12 @@ NOTES:
 
 1. MaKoTo, https://burogu.makotoworkshop.org/index.php?post/2012/12/26/borne-arcade-40
 2. Ansa89, https://github.com/Ansa89/linux-15khz-patch
+
+## linux_kernel_15khz patch license and attribution
+
+Because these patches modify and link against the Linux kernel, all code in this repository ((except for the xorg/ directory, which is governed by its own dedicated license)) is licensed under the **GNU General Public License v2.0 only (`GPL-2.0-only`)**, matching the license of the Linux kernel itself.
+See the [Linux Kernel Licensing Rules](https://kernel.org) and the `COPYING` file in the main kernel source tree for full terms.
+
+* **Upstream Credit:** Original subsystem code and architecture belong to Linus Torvalds and the respective Linux kernel contributors.
+* **Patch Authorship:** These patches are maintained by D0023R (see the repository's Git commit history and contributors list for individual credits), in accordance with the [Linux Kernel Developer's Certificate of Origin (DCO)](https://kernel.org).
+
