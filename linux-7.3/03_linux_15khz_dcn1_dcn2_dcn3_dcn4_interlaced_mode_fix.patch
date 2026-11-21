@@ -92,7 +92,7 @@ Index: linux-7.3/drivers/gpu/drm/amd/display/dc/optc/dcn30/dcn30_optc.h
  	SRI(OTG_CONTROL, OTG, inst),\
  	SRI(OTG_STEREO_CONTROL, OTG, inst),\
  	SRI(OTG_3D_STRUCTURE_CONTROL, OTG, inst),\
-@@ -147,6 +148,7 @@
+@@ -153,6 +154,7 @@
  	SF(OTG0_OTG_V_SYNC_A, OTG_V_SYNC_A_END, mask_sh),\
  	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_A_POL, mask_sh),\
  	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_MODE, mask_sh),\
@@ -112,7 +112,7 @@ Index: linux-7.3/drivers/gpu/drm/amd/display/dc/optc/dcn31/dcn31_optc.h
  	SRI(OTG_CONTROL, OTG, inst),\
  	SRI(OTG_STEREO_CONTROL, OTG, inst),\
  	SRI(OTG_3D_STRUCTURE_CONTROL, OTG, inst),\
-@@ -132,6 +133,7 @@
+@@ -138,6 +139,7 @@
  	SF(OTG0_OTG_V_SYNC_A, OTG_V_SYNC_A_END, mask_sh),\
  	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_A_POL, mask_sh),\
  	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_MODE, mask_sh),\
@@ -132,7 +132,7 @@ Index: linux-7.3/drivers/gpu/drm/amd/display/dc/optc/dcn314/dcn314_optc.h
  	SRI(OTG_CONTROL, OTG, inst),\
  	SRI(OTG_STEREO_CONTROL, OTG, inst),\
  	SRI(OTG_3D_STRUCTURE_CONTROL, OTG, inst),\
-@@ -131,6 +132,7 @@
+@@ -137,6 +138,7 @@
  	SF(OTG0_OTG_V_SYNC_A, OTG_V_SYNC_A_END, mask_sh),\
  	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_A_POL, mask_sh),\
  	SF(OTG0_OTG_V_SYNC_A_CNTL, OTG_V_SYNC_MODE, mask_sh),\
